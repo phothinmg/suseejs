@@ -1,0 +1,16 @@
+{
+  "name": "suseejs",
+  "version": "0.0.1",
+  "description": "Susee Js Monorepo",
+  "type": "module",
+  "workspaces": [
+    "packages/susee-utils",
+    "packages/susee-types"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "Apache-2.0"
+}
