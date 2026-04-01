@@ -1,4 +1,4 @@
-import type ts from "typescript";
+import type ts = require("typescript");
 
 export const pkgName = "SU-SEE";
 

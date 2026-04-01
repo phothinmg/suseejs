@@ -4,10 +4,16 @@
   "description": "Type definitions for suseejs",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "suseejs"
+  ],
+  "author": {
+    "name": "Pho Thin Mg",
+    "email": "phothinmg@disroot.org",
+    "url": "https://phothinmg.github.io/"
+  },
   "license": "Apache-2.0",
   "dependencies": {
     "typescript": "^6.0.2"

@@ -8,9 +8,17 @@
     "packages/susee-types"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "biome check --write",
+    "fmt": "biome format --write"
   },
   "keywords": [],
   "author": "",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/phothinmg/suseejs.git"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.10"
+  }
 }
