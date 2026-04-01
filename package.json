@@ -5,15 +5,25 @@
   "type": "module",
   "workspaces": [
     "packages/susee-utils",
-    "packages/susee-types"
+    "packages/susee-types",
+    "packages/susee-tcolor"
   ],
   "scripts": {
     "lint": "biome check --write",
     "fmt": "biome format --write",
-    "build": "tsx build.ts"
+    "build": "npm run build --workspaces --if-present",
+    "v:patch": "npm version patch --workspaces",
+    "v:minor": "npm version minor --workspaces",
+    "v:major": "npm version major --workspaces"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "suseejs"
+  ],
+  "author": {
+    "name": "Pho Thin Mg",
+    "email": "phothinmg@disroot.org",
+    "url": "https://phothinmg.github.io/"
+  },
   "license": "Apache-2.0",
   "repository": {
     "type": "git",

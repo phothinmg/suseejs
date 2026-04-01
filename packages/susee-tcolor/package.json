@@ -1,7 +1,7 @@
 {
-  "name": "susee-utils",
+  "name": "susee-tcolor",
   "version": "0.0.2",
-  "description": "Utilities for suseejs",
+  "description": "Type definitions for suseejs",
   "type": "module",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
@@ -33,7 +33,7 @@
   "bugs": {
     "url": "https://github.com/phothinmg/suseejs/issues"
   },
-  "homepage": "https://github.com/phothinmg/suseejs/blob/main/packages/susee-utils/README.md",
+  "homepage": "https://github.com/phothinmg/suseejs/blob/main/packages/susee-tcolor/README.md",
   "files": [
     "dist",
     "LICENSE",
@@ -42,13 +42,5 @@
   ],
   "publishConfig": {
     "access": "public"
-  },
-  "dependencies": {
-    "susee-tcolor": "file:../susee-tcolor",
-    "susee-types": "file:../susee-types",
-    "typescript": "^6.0.2"
-  },
-  "devDependencies": {
-    "@types/node": "^25.5.0"
   }
 }
