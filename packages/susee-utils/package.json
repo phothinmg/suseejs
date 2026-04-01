@@ -44,8 +44,8 @@
     "access": "public"
   },
   "dependencies": {
-    "susee-tcolor": "file:../susee-tcolor",
-    "susee-types": "file:../susee-types",
+    "susee-tcolor": "^0.0.5",
+    "susee-types": "^0.0.5",
     "typescript": "^6.0.2"
   },
   "devDependencies": {
