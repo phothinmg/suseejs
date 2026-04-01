@@ -1,6 +1,6 @@
 {
   "name": "susee-utils",
-  "version": "0.0.2",
+  "version": "0.0.5",
   "description": "Utilities for suseejs",
   "type": "module",
   "main": "dist/index.cjs",
@@ -44,8 +44,8 @@
     "access": "public"
   },
   "dependencies": {
-    "susee-tcolor": "workspace:^",
-    "susee-types": "workspace:^",
+    "susee-tcolor": "file:../susee-tcolor",
+    "susee-types": "file:../susee-types",
     "typescript": "^6.0.2"
   },
   "devDependencies": {

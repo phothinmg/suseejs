@@ -1,6 +1,6 @@
 {
   "name": "susee-tcolor",
-  "version": "0.0.2",
+  "version": "0.0.5",
   "description": "Type definitions for suseejs",
   "type": "module",
   "main": "dist/index.cjs",

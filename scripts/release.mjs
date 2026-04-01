@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import { execSync } from "node:child_process";
 import { join } from "node:path";
 
@@ -23,6 +23,10 @@ function capture(command) {
 
 function readJson(path) {
   return JSON.parse(readFileSync(path, "utf8"));
+}
+
+function writeJson(path, data) {
+  writeFileSync(path, `${JSON.stringify(data, null, 2)}\n`, "utf8");
 }
 
 function validateWorkspaceVersions(rootPackageJson) {
@@ -55,7 +59,7 @@ function validateWorkspaceVersions(rootPackageJson) {
     };
   });
 
-  const workspaceNames = new Set(packages.map((pkg) => pkg.name));
+  const workspaceByName = new Map(packages.map((pkg) => [pkg.name, pkg]));
 
   for (const pkg of packages) {
     const dependencySets = [
@@ -67,24 +71,77 @@ function validateWorkspaceVersions(rootPackageJson) {
     for (const deps of dependencySets) {
       for (const [depName, depRange] of Object.entries(deps)) {
         if (typeof depRange !== "string" || !depRange.startsWith("workspace:")) {
+          const internalDep = workspaceByName.get(depName);
+          if (!internalDep) {
+            continue;
+          }
+
+          if (depRange.length === 0) {
+            fail(`Package ${pkg.name} has an empty version range for ${depName}.`);
+          }
+
           continue;
-        }
-
-        if (!workspaceNames.has(depName)) {
-          fail(
-            `Package ${pkg.name} references ${depName} with workspace protocol, but ${depName} is not in root workspaces.`
-          );
-        }
-
-        const workspaceSpecifier = depRange.slice("workspace:".length);
-        if (workspaceSpecifier.length === 0) {
-          fail(`Package ${pkg.name} has invalid workspace specifier for ${depName}.`);
         }
       }
     }
   }
 
-  info(`Validated ${packages.length} workspace package version(s) and internal workspace dependency references.`);
+  info(`Validated ${packages.length} workspace package version(s) and internal dependency references.`);
+}
+
+function normalizeInternalDependencyRanges(rootPackageJson) {
+  const workspacePaths = Array.isArray(rootPackageJson.workspaces)
+    ? rootPackageJson.workspaces
+    : [];
+
+  const packages = workspacePaths.map((workspacePath) => {
+    const manifestPath = join(workspacePath, "package.json");
+    const manifest = readJson(manifestPath);
+    return { workspacePath, manifestPath, manifest };
+  });
+
+  const versionByName = new Map(
+    packages
+      .filter((pkg) => pkg.manifest?.name && pkg.manifest?.version)
+      .map((pkg) => [pkg.manifest.name, pkg.manifest.version])
+  );
+
+  let changedCount = 0;
+
+  for (const pkg of packages) {
+    let changed = false;
+    const depFields = ["dependencies", "peerDependencies", "optionalDependencies"];
+
+    for (const field of depFields) {
+      const deps = pkg.manifest[field];
+      if (!deps || typeof deps !== "object") {
+        continue;
+      }
+
+      for (const depName of Object.keys(deps)) {
+        const internalVersion = versionByName.get(depName);
+        if (!internalVersion) {
+          continue;
+        }
+
+        const wanted = `^${internalVersion}`;
+        if (deps[depName] !== wanted) {
+          deps[depName] = wanted;
+          changed = true;
+        }
+      }
+    }
+
+    if (changed) {
+      writeJson(pkg.manifestPath, pkg.manifest);
+      changedCount += 1;
+      info(`Normalized internal dependency ranges in ${pkg.manifestPath}.`);
+    }
+  }
+
+  if (changedCount === 0) {
+    info("Internal dependency ranges already normalized for publish.");
+  }
 }
 
 function ensureCleanGitTree() {
@@ -115,6 +172,7 @@ function main() {
   ensureCleanGitTree();
   ensureNpmAuth();
   validateWorkspaceVersions(rootPackageJson);
+  normalizeInternalDependencyRanges(rootPackageJson);
 
   info("Building workspaces...");
   run("npm run build");
