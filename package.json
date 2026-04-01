@@ -4,14 +4,16 @@
   "description": "Susee Js Monorepo",
   "type": "module",
   "workspaces": [
-    "packages/susee-utils",
     "packages/susee-types",
-    "packages/susee-tcolor"
+    "packages/susee-tcolor",
+    "packages/susee-utils"
   ],
   "scripts": {
     "lint": "biome check --write",
     "fmt": "biome format --write",
     "build": "npm run build --workspaces --if-present",
+    "publish:ws": "npm publish --workspaces --if-present",
+    "release:ws": "node scripts/release.mjs",
     "v:patch": "npm version patch --workspaces",
     "v:minor": "npm version minor --workspaces",
     "v:major": "npm version major --workspaces"
