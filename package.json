@@ -9,7 +9,8 @@
   ],
   "scripts": {
     "lint": "biome check --write",
-    "fmt": "biome format --write"
+    "fmt": "biome format --write",
+    "build": "tsx build.ts"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +20,9 @@
     "url": "https://github.com/phothinmg/suseejs.git"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.10"
+    "@biomejs/biome": "^2.4.10",
+    "@types/node": "^25.5.0",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.2"
   }
 }
