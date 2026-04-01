@@ -19,13 +19,16 @@
     "typescript": "^6.0.2"
   },
   "bugs": {
-    "url": "https://github.com/suseejs/types/issues"
+    "url": "https://github.com/phothinmg/suseejs/issues"
   },
-  "homepage": "https://github.com/suseejs/types#readme",
+  "homepage": "https://github.com/phothinmg/suseejs/blob/main/packages/susee-types/README.md",
   "files": [
     "dist",
     "LICENSE",
     "README.md",
     "package.json"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }
