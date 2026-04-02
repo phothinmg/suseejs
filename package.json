@@ -1,6 +1,6 @@
 {
   "name": "suseejs",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Susee Js Monorepo",
   "type": "module",
   "workspaces": [
