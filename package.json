@@ -10,7 +10,8 @@
     "packages/susee-transform",
     "packages/susee-tsconfig",
     "packages/susee-plugin-banner-text",
-    "packages/susee-plugin-terser"
+    "packages/susee-plugin-terser",
+    "packages/susee-plugin-commonjs"
   ],
   "scripts": {
     "lint": "biome check --write",

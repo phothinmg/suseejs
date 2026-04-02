@@ -2,15 +2,15 @@
 <!-- markdownlint-disable MD041 -->
 <div align="center">
 <img src="https://susee.phothin.dev/logo/susee.webp" width="160" height="160" alt="susee" />
-  <h1>Susee Plugin Terser</h1>
+  <h1>Susee Plugin CommonJs</h1>
 </div>
 
-A Susee plugin that minifies JavaScript code using the Terser library.
+A Susee plugin that transforms commonjs exports and imports into ES modules.
 
 ## Install
 
 ```sh
-npm i -D susee-plugin-terser
+npm i -D susee-plugin-commonjs
 ```
 
 ## Use
@@ -19,11 +19,7 @@ In your `susee.config.ts`
 
 ```ts
 import type { SuSeeConfig } from "susee";
-import suseeTerser from "susee-plugin-terser";
-
-const terserMinifyOptions = {
-  toplevel: true,
-};
+import suseeCommonJS from "susee-plugin-commonjs";
 
 export default {
   entryPoints: [
@@ -33,8 +29,6 @@ export default {
       exportPath: ".",
     },
   ],
-  plugins: [suseeTerser(terserMinifyOptions)],
+  plugins: [suseeCommonJS()],
 } as SuSeeConfig;
 ```
-
-**`terserMinifyOptions`** -> [See detail here](https://terser.org/docs/options/)

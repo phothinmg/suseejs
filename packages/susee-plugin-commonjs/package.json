@@ -1,7 +1,7 @@
 {
-  "name": "susee-plugin-banner-text",
+  "name": "susee-plugin-commonjs",
   "version": "0.0.5",
-  "description": "Susee plugin for banner text",
+  "description": "A Susee plugin that transforms commonjs exports and imports into ES modules.",
   "type": "module",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
@@ -31,7 +31,10 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
+    "@phothinmaung/resolves": "^1.0.0",
+    "susee-transform": "file:../susee-transform",
     "susee-types": "file:../susee-types",
+    "susee-utils": "file:../susee-utils",
     "typescript": "^6.0.2"
   },
   "repository": {
@@ -41,7 +44,7 @@
   "bugs": {
     "url": "https://github.com/phothinmg/suseejs/issues"
   },
-  "homepage": "https://github.com/phothinmg/suseejs/blob/main/packages/susee-plugin-banner-text/README.md",
+  "homepage": "https://github.com/phothinmg/suseejs/blob/main/packages/susee-plugin-commonjs/README.md",
   "files": [
     "dist",
     "LICENSE",
@@ -51,5 +54,8 @@
   "publishConfig": {
     "access": "public",
     "provenance": true
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0"
   }
 }
