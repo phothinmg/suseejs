@@ -1,6 +1,6 @@
 {
   "name": "susee-plugin-terser",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A Susee plugin that minifies JavaScript code using the Terser library",
   "type": "module",
   "main": "dist/index.cjs",
