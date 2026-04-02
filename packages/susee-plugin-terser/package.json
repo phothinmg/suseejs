@@ -1,7 +1,7 @@
 {
-  "name": "susee-tcolor",
+  "name": "susee-plugin-terser",
   "version": "0.0.5",
-  "description": "Type definitions for suseejs",
+  "description": "A Susee plugin that minifies JavaScript code using the Terser library",
   "type": "module",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
@@ -30,6 +30,11 @@
     "url": "https://phothinmg.github.io/"
   },
   "license": "Apache-2.0",
+  "dependencies": {
+    "susee-types": "file:../susee-types",
+    "terser": "^5.46.1",
+    "typescript": "^6.0.2"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/phothinmg/suseejs.git"
@@ -37,7 +42,7 @@
   "bugs": {
     "url": "https://github.com/phothinmg/suseejs/issues"
   },
-  "homepage": "https://github.com/phothinmg/suseejs/blob/main/packages/susee-tcolor/README.md",
+  "homepage": "https://github.com/phothinmg/suseejs/blob/main/packages/susee-plugin-terser/README.md",
   "files": [
     "dist",
     "LICENSE",

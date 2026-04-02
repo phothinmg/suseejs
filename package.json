@@ -1,12 +1,16 @@
 {
   "name": "suseejs",
-  "version": "0.0.1",
+  "version": "0.0.5",
   "description": "Susee Js Monorepo",
   "type": "module",
   "workspaces": [
     "packages/susee-types",
     "packages/susee-tcolor",
-    "packages/susee-utils"
+    "packages/susee-utils",
+    "packages/susee-transform",
+    "packages/susee-tsconfig",
+    "packages/susee-plugin-banner-text",
+    "packages/susee-plugin-terser"
   ],
   "scripts": {
     "lint": "biome check --write",
@@ -14,9 +18,9 @@
     "build": "npm run build --workspaces --if-present",
     "publish:ws": "npm publish --workspaces --if-present",
     "release:ws": "node scripts/release.mjs",
-    "v:patch": "npm version patch --workspaces",
-    "v:minor": "npm version minor --workspaces",
-    "v:major": "npm version major --workspaces"
+    "v:patch": "npm version patch && npm version patch --workspaces",
+    "v:minor": "npm version minor && npm version minor --workspaces",
+    "v:major": "npm version major && npm version major --workspaces"
   },
   "keywords": [
     "suseejs"

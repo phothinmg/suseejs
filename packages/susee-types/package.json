@@ -33,6 +33,10 @@
   "dependencies": {
     "typescript": "^6.0.2"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/phothinmg/suseejs.git"
+  },
   "bugs": {
     "url": "https://github.com/phothinmg/suseejs/issues"
   },

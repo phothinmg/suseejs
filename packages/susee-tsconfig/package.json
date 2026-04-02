@@ -1,7 +1,7 @@
 {
-  "name": "susee-tcolor",
+  "name": "susee-tsconfig",
   "version": "0.0.5",
-  "description": "Type definitions for suseejs",
+  "description": "Get TypeScript compiler options and tsconfig file",
   "type": "module",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
@@ -30,6 +30,10 @@
     "url": "https://phothinmg.github.io/"
   },
   "license": "Apache-2.0",
+  "dependencies": {
+    "susee-tcolor": "file:../susee-tcolor",
+    "typescript": "^6.0.2"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/phothinmg/suseejs.git"
@@ -37,7 +41,7 @@
   "bugs": {
     "url": "https://github.com/phothinmg/suseejs/issues"
   },
-  "homepage": "https://github.com/phothinmg/suseejs/blob/main/packages/susee-tcolor/README.md",
+  "homepage": "https://github.com/phothinmg/suseejs/blob/main/packages/susee-tsconfig/README.md",
   "files": [
     "dist",
     "LICENSE",
@@ -46,5 +50,8 @@
   ],
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0"
   }
 }
