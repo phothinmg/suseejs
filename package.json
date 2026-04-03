@@ -12,7 +12,8 @@
     "packages/susee-plugin-banner-text",
     "packages/susee-plugin-terser",
     "packages/susee-plugin-commonjs",
-    "packages/susee-anonymous"
+    "packages/susee-anonymous",
+    "packages/susee-duplicate"
   ],
   "scripts": {
     "lint": "npm run lint --workspaces --if-present",
