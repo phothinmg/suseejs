@@ -440,7 +440,7 @@ const importExpression = (compilerOptions: ts.CompilerOptions) => {
 const collector = (compilerOptions: ts.CompilerOptions) => {
 	return ({ fileName, sourceCode, sourceFile }: SuseeTypes.DepFileObject) => {
 		const transformer: ts.TransformerFactory<ts.SourceFile> = (context) => {
-			const { factory } = context;
+			//const { factory } = context;
 			function visitor(node: ts.Node, isGlobalScope: boolean = true): ts.Node {
 				// Global declarations များကိုသာ collect လုပ်မယ်
 				if (isGlobalScope) {
