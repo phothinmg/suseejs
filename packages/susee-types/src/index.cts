@@ -187,3 +187,9 @@ export interface BundledResult {
 	points: BundlePoint[];
 	allowUpdatePackageJson: boolean;
 }
+
+export interface DepFileObject {
+	fileName: string;
+	sourceCode: string;
+	sourceFile: ts.SourceFile;
+}

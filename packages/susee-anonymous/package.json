@@ -1,7 +1,7 @@
 {
-  "name": "susee-tcolor",
+  "name": "susee-anonymous",
   "version": "0.0.6",
-  "description": "Type definitions for suseejs",
+  "description": "Anonymous export import handler",
   "type": "module",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
@@ -20,6 +20,7 @@
   },
   "scripts": {
     "build": "tsc",
+    "test": "tsx --test",
     "lint": "biome check src --write"
   },
   "keywords": [
@@ -31,6 +32,14 @@
     "url": "https://phothinmg.github.io/"
   },
   "license": "Apache-2.0",
+  "dependencies": {
+    "@phothinmaung/resolves": "^1.0.0",
+    "@types/node": "^25.5.2",
+    "susee-transform": "file:../susee-transform",
+    "susee-types": "file:../susee-types",
+    "susee-utils": "file:../susee-utils",
+    "typescript": "^6.0.2"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/phothinmg/suseejs.git"
@@ -38,7 +47,7 @@
   "bugs": {
     "url": "https://github.com/phothinmg/suseejs/issues"
   },
-  "homepage": "https://github.com/phothinmg/suseejs/blob/main/packages/susee-tcolor/README.md",
+  "homepage": "https://github.com/phothinmg/suseejs/blob/main/packages/susee-transform/README.md",
   "files": [
     "dist",
     "LICENSE",
@@ -50,6 +59,7 @@
     "provenance": true
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.10"
+    "@biomejs/biome": "^2.4.10",
+    "tsx": "^4.21.0"
   }
 }

@@ -19,7 +19,8 @@
     }
   },
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "lint": "biome check src --write"
   },
   "keywords": [
     "suseejs"
@@ -51,5 +52,8 @@
   "publishConfig": {
     "access": "public",
     "provenance": true
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.10"
   }
 }

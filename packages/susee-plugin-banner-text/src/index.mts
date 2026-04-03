@@ -1,4 +1,4 @@
-import * as SuseeTypes from "susee-types";
+import type * as SuseeTypes from "susee-types";
 
 /**
  * Susee plugin for banner text.
@@ -7,14 +7,14 @@ import * as SuseeTypes from "susee-types";
  * @returns {SuseeTypes.SuseePlugin} - The Susee plugin.
  */
 function suseeBannerText(bannerText: string): SuseeTypes.SuseePlugin {
-  return {
-    type: "post-process",
-    async: false,
-    name: "@suseejs/plugin-banner-text",
-    func: (code, _file) => {
-      return `${bannerText}\n\n${code}`;
-    },
-  };
+	return {
+		type: "post-process",
+		async: false,
+		name: "@suseejs/plugin-banner-text",
+		func: (code, _file) => {
+			return `${bannerText}\n\n${code}`;
+		},
+	};
 }
 
 export default suseeBannerText;
