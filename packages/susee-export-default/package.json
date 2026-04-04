@@ -1,0 +1,65 @@
+{
+  "name": "susee-export-default",
+  "version": "0.0.6",
+  "description": "Export default handler",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.cts",
+  "exports": {
+    ".": {
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      },
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      }
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.src.json --incremental false --composite false",
+    "test": "tsx --test --experimental-test-coverage",
+    "lint": "biome check src --write"
+  },
+  "keywords": [
+    "suseejs"
+  ],
+  "author": {
+    "name": "Pho Thin Mg",
+    "email": "phothinmg@disroot.org",
+    "url": "https://phothinmg.github.io/"
+  },
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@phothinmaung/resolves": "^1.0.0",
+    "@types/node": "^25.5.2",
+    "susee-transform": "file:../susee-transform",
+    "susee-types": "file:../susee-types",
+    "susee-utils": "file:../susee-utils",
+    "typescript": "^6.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/phothinmg/suseejs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/phothinmg/suseejs/issues"
+  },
+  "homepage": "https://github.com/phothinmg/suseejs/blob/main/packages/susee-transform/README.md",
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md",
+    "package.json"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.10",
+    "tsx": "^4.21.0"
+  }
+}

@@ -14,7 +14,8 @@
     "packages/susee-plugin-commonjs",
     "packages/susee-anonymous",
     "packages/susee-duplicate",
-    "packages/susee-remove"
+    "packages/susee-remove",
+    "packages/susee-export-default"
   ],
   "scripts": {
     "lint": "npm run lint --workspaces --if-present",
