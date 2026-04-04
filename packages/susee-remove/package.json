@@ -1,7 +1,7 @@
 {
-  "name": "susee-duplicate",
+  "name": "susee-remove",
   "version": "0.0.6",
-  "description": "Duplicate handler",
+  "description": "Remove handler",
   "type": "module",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",

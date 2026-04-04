@@ -20,7 +20,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "test": "tsx --test",
+    "test": "tsx --test --test-reporter spec --test-reporter-destination stdout",
     "lint": "biome check src --write"
   },
   "keywords": [
