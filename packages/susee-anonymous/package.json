@@ -1,6 +1,6 @@
 {
   "name": "susee-anonymous",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Anonymous export import handler",
   "type": "module",
   "main": "dist/index.cjs",
