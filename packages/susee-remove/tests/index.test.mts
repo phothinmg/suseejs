@@ -1,7 +1,7 @@
 import assert from "node:assert";
 import { describe, it } from "node:test";
 import ts from "typescript";
-import removeHandlers from "./src/index.mjs";
+import removeHandlers from "../src/index.mjs";
 
 function createDep(fileName: string, sourceCode: string) {
 	return {

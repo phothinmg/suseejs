@@ -1,7 +1,10 @@
-import assert from "node:assert";
-import { describe, it } from "node:test";
-import ts from "typescript";
-import anonymousHandlers from "./src/index.mjs";
+import assert = require("node:assert");
+import NodeTest = require("node:test");
+import ts = require("typescript");
+import anonymousHandlers = require("../src/index.cjs");
+
+const describe = NodeTest.describe;
+const it = NodeTest.it;
 
 function createDep(fileName: string, sourceCode: string) {
   return {
@@ -24,7 +27,10 @@ describe("Anonymous Handler Tests", () => {
    */
   it("renames anonymous default export and updates importer usages", async () => {
     const deps = [
-      createDep("/virtual/foo.ts", "export default function () { return 1; }\n"),
+      createDep(
+        "/virtual/foo.ts",
+        "export default function () { return 1; }\n",
+      ),
       createDep(
         "/virtual/main.ts",
         "import foo from './foo.js';\nconst value = foo();\nexport { foo, value };\n",
@@ -113,7 +119,10 @@ describe("Anonymous Handler Tests", () => {
    */
   it("resets anonymous rename state between runs", async () => {
     const deps = [
-      createDep("/virtual/foo.ts", "export default function () { return 1; }\n"),
+      createDep(
+        "/virtual/foo.ts",
+        "export default function () { return 1; }\n",
+      ),
       createDep(
         "/virtual/main.ts",
         "import foo from './foo.js';\nconst value = foo();\nexport { foo, value };\n",

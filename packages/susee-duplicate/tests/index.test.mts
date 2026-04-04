@@ -1,7 +1,7 @@
 import assert from "node:assert";
 import { describe, it } from "node:test";
 import ts from "typescript";
-import duplicateHandlers from "./src/index.mjs";
+import duplicateHandlers from "../src/index.mjs";
 
 function createDep(fileName: string, sourceCode: string) {
 	return {

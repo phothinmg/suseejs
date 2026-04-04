@@ -1,10 +1,8 @@
 {
-  // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
-    // File Layout
-    "rootDir": ".",
-    // "outDir": "./dist",
-
+    "outDir": "./dist",
+    "rootDir": "./src", // Now src maps directly to dist
+    "composite": true,
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
     "module": "nodenext",
@@ -35,11 +33,11 @@
     // Recommended Options
     "strict": true,
     "jsx": "react-jsx",
-    "verbatimModuleSyntax": true,
+    //"verbatimModuleSyntax": true,
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true
   },
-  "include": ["scripts/**/*"]
+  "include": ["src/**/*"]
 }
