@@ -10,3 +10,7 @@ Utilities for suseejs
 ```sh
 npm i -D susee-utils
 ```
+
+```ts
+import utils from "susee-utils";
+```

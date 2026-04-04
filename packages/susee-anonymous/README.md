@@ -10,3 +10,7 @@ Anonymous export import handler
 ```sh
 npm i -D susee-anonymous
 ```
+
+```ts
+import anonymousHandlers from "susee-remove";
+```

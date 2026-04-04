@@ -10,3 +10,7 @@ Duplicate handler
 ```sh
 npm i -D susee-duplicate
 ```
+
+```ts
+import duplicateHandlers from "susee-remove";
+```

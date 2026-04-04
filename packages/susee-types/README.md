@@ -10,3 +10,7 @@ Type definitions for suseejs
 ```sh
 npm i -D susee-types
 ```
+
+```ts
+import TsConfig from "susee-tsconfig";
+```

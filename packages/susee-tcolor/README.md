@@ -10,3 +10,7 @@ Terminal color
 ```sh
 npm i -D susee-tcolor
 ```
+
+```ts
+import tcolor from "susee-tcolor";
+```

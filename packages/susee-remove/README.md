@@ -10,3 +10,7 @@ Remove handler
 ```sh
 npm i -D susee-remove
 ```
+
+```ts
+import removeHandlers from "susee-remove";
+```

@@ -10,3 +10,7 @@ TypeScript transformer function.
 ```sh
 npm i -D susee-transform
 ```
+
+```ts
+import transformFunction from "susee-transform";
+```

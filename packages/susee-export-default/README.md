@@ -10,3 +10,7 @@ Export default handler
 ```sh
 npm i -D susee-export-default
 ```
+
+```ts
+import exportDefaultHandlers from "susee-remove";
+```
