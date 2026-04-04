@@ -21,7 +21,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.src.json --incremental false --composite false",
     "test": "tsx --test --experimental-test-coverage",
-    "lint": "biome check src --write && biome tests src --write"
+    "lint": "biome check src --write"
   },
   "keywords": [
     "suseejs"
