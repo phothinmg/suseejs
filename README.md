@@ -18,5 +18,9 @@ packages
 ├── susee-tsconfig
 ├── susee-plugin-banner-text
 ├── susee-plugin-terser
-└── susee-plugin-commonjs
+├── susee-plugin-commonjs
+├── susee-anonymous
+├── susee-duplicate
+├── susee-remove
+└── susee-export-default
 ```

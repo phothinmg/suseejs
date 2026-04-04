@@ -10,11 +10,11 @@ if [[ -z "$subject" ]]; then
   exit 1
 fi
 
-pattern='^(🚀 Added Package|🖊️ Changed|🗝️ Deprecated|🐞 Fixed|🚨 Security|✨ Modified)[[:space:]]*:[[:space:]]+.+[[:space:]]+\(#[0-9]+\)$'
+pattern='^(🚀 Added Package|🖊️ Changed|🗝️ Deprecated|🐞 Fixed|🚨 Security|✨ Modified|📦 Release)[[:space:]]*:[[:space:]]+.+[[:space:]]+\(#[0-9]+\)$'
 
 if [[ ! "$subject" =~ $pattern ]]; then
   echo "ERROR: Invalid commit message format."
-  echo "Allowed types: Added Package, Changed, Deprecated, Fixed, Security, Modified"
+  echo "Allowed types: Added Package, Changed, Deprecated, Fixed, Security, Modified, Release."
   echo "Expected format: <Type>: <message> (#<number>)"
   echo "Example: Added: support tsx test hook (#42)"
   exit 1

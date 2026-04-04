@@ -11,6 +11,7 @@ const suseeCommitTypes = [
   "🐞 Fixed",
   "🚨 Security",
   "✨ Modified",
+  "📦 Release",
 ];
 
 async function getCommandOutput(command: string): Promise<string> {
