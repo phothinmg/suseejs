@@ -1,6 +1,6 @@
 {
   "name": "susee-remove",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "description": "Remove handler",
   "type": "module",
   "main": "dist/index.cjs",

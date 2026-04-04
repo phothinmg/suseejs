@@ -1,6 +1,6 @@
 {
   "name": "susee-duplicate",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "description": "Duplicate handler",
   "type": "module",
   "main": "dist/index.cjs",

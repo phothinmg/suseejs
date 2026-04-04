@@ -1,6 +1,6 @@
 {
   "name": "susee-types",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "description": "Type definitions for suseejs",
   "type": "module",
   "main": "dist/index.cjs",

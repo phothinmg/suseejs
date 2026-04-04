@@ -1,6 +1,6 @@
 {
   "name": "susee-plugin-commonjs",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "description": "A Susee plugin that transforms commonjs exports and imports into ES modules.",
   "type": "module",
   "main": "dist/index.cjs",

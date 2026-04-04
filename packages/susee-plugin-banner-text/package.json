@@ -1,6 +1,6 @@
 {
   "name": "susee-plugin-banner-text",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "description": "Susee plugin for banner text",
   "type": "module",
   "main": "dist/index.cjs",
