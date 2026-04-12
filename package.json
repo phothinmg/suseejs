@@ -11,11 +11,7 @@
     "packages/susee-tsconfig",
     "packages/susee-plugin-banner-text",
     "packages/susee-plugin-terser",
-    "packages/susee-plugin-commonjs",
-    "packages/susee-anonymous",
-    "packages/susee-duplicate",
-    "packages/susee-remove",
-    "packages/susee-export-default"
+    "packages/susee-plugin-commonjs"
   ],
   "scripts": {
     "lint": "npm run lint --workspaces --if-present",
