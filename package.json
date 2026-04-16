@@ -6,7 +6,8 @@
     "build": "npm run build --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
     "fmt": "npm run fmt --workspaces --if-present",
-    "hooks:install": "bash scripts/install-hooks.sh"
+    "hooks:install": "bash scripts/install-hooks.sh",
+    "commit": "bash scripts/commit.sh"
   },
   "keywords": [
     "suseejs"
@@ -15,7 +16,8 @@
   "workspaces": [
     "packages/utilities",
     "packages/color",
-    "packages/type"
+    "packages/type",
+    "packages/tsoptions"
   ],
   "repository": {
     "type": "git",

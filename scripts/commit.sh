@@ -26,7 +26,7 @@ done
 read -p "Enter commit message: " message
 # Get full commit message pattern
 # <Type>: <message>
-commit_message="$TYPE: $message"
+commit_message="$TYPE : $message"
 
 current_branch=$(git branch --show-current)
 git add .
