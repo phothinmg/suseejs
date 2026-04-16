@@ -2,6 +2,12 @@
   "name": "suseejs",
   "version": "0.0.1",
   "description": "Susee Js Monorepo",
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "fmt": "npm run fmt --workspaces --if-present",
+    "hooks:install": "bash scripts/install-hooks.sh"
+  },
   "keywords": [
     "suseejs"
   ],
@@ -10,5 +16,15 @@
     "packages/utilities",
     "packages/color",
     "packages/type"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phothinmg/suseejs.git"
+  },
+  "devDependencies": {
+    "@suseejs/color": "^0.0.1",
+    "@types/node": "^25.6.0",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.2"
+  }
 }
