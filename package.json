@@ -1,0 +1,14 @@
+{
+  "name": "suseejs",
+  "version": "0.0.1",
+  "description": "Susee Js Monorepo",
+  "keywords": [
+    "suseejs"
+  ],
+  "author": "",
+  "workspaces": [
+    "packages/utilities",
+    "packages/color",
+    "packages/type"
+  ]
+}
