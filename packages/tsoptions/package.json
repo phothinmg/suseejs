@@ -18,9 +18,11 @@
     }
   },
   "scripts": {
-    "build": "tsc",
+    "build": "node build.mjs",
     "lint": "biome check src --write",
-    "fmt": "biome format --write"
+    "fmt": "biome format --write",
+    "test": "tsx --test",
+    "lcov": "tsx --test --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=tests/lcov.info"
   },
   "author": {
     "name": "Pho Thin Mg",
@@ -48,7 +50,8 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.12",
-    "@types/node": "^25.6.0"
+    "@types/node": "^25.6.0",
+    "tsx": "^4.21.0"
   },
   "dependencies": {
     "@suseejs/color": "file:../color",
