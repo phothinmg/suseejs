@@ -21,7 +21,9 @@
   "scripts": {
     "build": "node build.mjs",
     "lint": "biome check src --write",
-    "fmt": "biome format --write"
+    "fmt": "biome format --write",
+    "test": "tsx --test",
+    "lcov": "tsx --test --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=tests/lcov.info"
   },
   "author": {
     "name": "Pho Thin Mg",
