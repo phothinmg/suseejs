@@ -1,7 +1,8 @@
 {
-	"name": "@suseejs/tsoptions",
+	"name": "@suseejs/graph",
 	"version": "0.0.1",
-	"description": "Get typescript compiler options",
+	"description": "Generate dependencies graph.",
+	"type": "module",
 	"main": "dist/index.cjs",
 	"types": "dist/index.d.cts",
 	"module": "dist/index.mjs",
@@ -36,7 +37,7 @@
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/phothinmg/suseejs.git",
-		"directory": "packages/tsoptions"
+		"directory": "packages/graph"
 	},
 	"files": [
 		"dist",
@@ -50,11 +51,10 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.4.12",
-		"@types/node": "^25.6.0",
-		"tsx": "^4.21.0"
+		"@types/node": "^25.6.0"
 	},
 	"dependencies": {
-		"@suseejs/color": "file:../color",
-		"typescript": "^6.0.2"
+		"@suseejs/compiler": "file:../compiler",
+		"typescript": "^6.0.3"
 	}
 }

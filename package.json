@@ -23,7 +23,8 @@
     "packages/color",
     "packages/type",
     "packages/tsoptions",
-    "packages/compiler"
+    "packages/compiler",
+    "packages/graph"
   ],
   "repository": {
     "type": "git",

@@ -1,0 +1,10 @@
+{
+	"compilerOptions": {
+		"rootDir": "./src",
+		"outDir": "./dist",
+		"module": "es2020",
+		"sourceMap": true,
+		"declaration": true
+	},
+	"include": ["src/**/*"]
+}
