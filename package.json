@@ -24,7 +24,8 @@
     "packages/type",
     "packages/tsoptions",
     "packages/compiler",
-    "packages/graph"
+    "packages/graph",
+    "packages/files"
   ],
   "repository": {
     "type": "git",
