@@ -24,10 +24,10 @@ done
 
 # Get commit message
 read -p "Enter commit message: " message
+npm run coverage
 # Get full commit message pattern
 # <Type>: <message>
 commit_message="$TYPE : $message"
-
 current_branch=$(git branch --show-current)
 git add .
 git commit -m "$commit_message"
