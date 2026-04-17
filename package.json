@@ -25,7 +25,8 @@
     "packages/tsoptions",
     "packages/compiler",
     "packages/graph",
-    "packages/files"
+    "packages/files",
+    "packages/bundler"
   ],
   "repository": {
     "type": "git",
