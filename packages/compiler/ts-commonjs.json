@@ -1,0 +1,12 @@
+{
+	"compilerOptions": {
+		"rootDir": "./src",
+		"outDir": "./dist/commonjs",
+		"module": "commonjs",
+		"sourceMap": true,
+		"declaration": true,
+		"strict": true,
+		"moduleDetection": "force"
+	},
+	"include": ["src/**/*"]
+}
