@@ -9,7 +9,9 @@ import ts from "typescript";
  * @param {string | undefined} customConfigPath path of the custom configuration file.
  * @returns {string | undefined} path of the configuration file or undefined if customConfigPath does not exist.
  */
-function getConfigPath(customConfigPath?: string | undefined) {
+function getConfigPath(
+	customConfigPath?: string | undefined,
+): string | undefined {
 	let config_path: string | undefined;
 	if (customConfigPath) {
 		if (!ts.sys.fileExists(ts.sys.resolvePath(customConfigPath))) {
@@ -53,10 +55,11 @@ function getCompilerOptions(customConfigPath?: string | undefined): {
 	const commonjs = (out_dir?: string | undefined): ts.CompilerOptions => {
 		const _out = out_dir ? out_dir : "dist";
 		if (tsconfig_opts !== undefined) {
-			const { rootDir, outDir, module, ...rest } = tsconfig_opts;
+			const { rootDir, outDir, module, allowJs, ...rest } = tsconfig_opts;
 			return {
 				outDir: _out,
 				module: ts.ModuleKind.CommonJS,
+				allowJs: true,
 				...rest,
 			} as ts.CompilerOptions;
 		} else {
@@ -70,10 +73,11 @@ function getCompilerOptions(customConfigPath?: string | undefined): {
 	const esm = (out_dir?: string | undefined): ts.CompilerOptions => {
 		const _out = out_dir ? out_dir : "dist";
 		if (tsconfig_opts !== undefined) {
-			const { rootDir, outDir, module, ...rest } = tsconfig_opts;
+			const { rootDir, outDir, module, allowJs, ...rest } = tsconfig_opts;
 			return {
 				outDir: _out,
 				module: ts.ModuleKind.ES2020,
+				allowJs: true,
 				...rest,
 			} as ts.CompilerOptions;
 		} else {

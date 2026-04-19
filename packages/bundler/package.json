@@ -57,6 +57,7 @@
 		"@suseejs/color": "file:../color",
 		"@suseejs/files": "file:../files",
 		"@suseejs/graph": "file:../graph",
+		"@suseejs/tsoptions": "file:../tsoptions",
 		"@suseejs/type": "file:../type",
 		"@suseejs/utilities": "file:../utilities",
 		"typescript": "^6.0.3"

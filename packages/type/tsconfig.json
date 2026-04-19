@@ -1,9 +1,9 @@
 {
 	"compilerOptions": {
-		"rootDir": "./src",
+		"rootDir": ".",
 		"outDir": "./dist",
 		"target": "esnext",
-		"types": [],
+		"types": ["node"],
 		"sourceMap": true,
 		"declaration": true,
 		"noUncheckedIndexedAccess": true,
@@ -14,5 +14,5 @@
 		"moduleDetection": "force",
 		"skipLibCheck": true
 	},
-	"include": ["src/**/*"]
+	"include": ["src/**/*", "build.ts"]
 }

@@ -1,13 +1,13 @@
-import { bundler } from "./src/index.js";
 import { suseeCompiler } from "@suseejs/compiler";
 import { getCompilerOptions } from "@suseejs/tsoptions";
-import { files } from "@suseejs/files";
 import path from "node:path";
+import fs from "node:fs";
+import { files } from "./src/index.js";
 
-const outDir = path.resolve(process.cwd(), "dist");
-const code = await bundler("src/index.ts");
+const entryPath = path.resolve(process.cwd(), "src/index.ts");
+const code = await fs.promises.readFile(entryPath, "utf8");
+
 const opts = getCompilerOptions();
-
 const commonjs = suseeCompiler({
 	sourceCode: code,
 	fileName: "src/index.ts",

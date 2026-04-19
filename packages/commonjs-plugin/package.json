@@ -19,7 +19,7 @@
 		}
 	},
 	"scripts": {
-		"build": "node build.mjs",
+		"build": "tsx build.ts",
 		"lint": "biome check src --write",
 		"fmt": "biome format --write"
 	},
@@ -48,13 +48,15 @@
 		"provenance": true
 	},
 	"dependencies": {
+		"@suseejs/utilities": "file:../utilities",
 		"typescript": "^6.0.3"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.4.12",
 		"@suseejs/compiler": "file:../compiler",
+		"@suseejs/files": "file:../files",
+		"@suseejs/tsoptions": "file:../tsoptions",
 		"@suseejs/type": "file:../type",
-		"@suseejs/utilities": "file:../utilities",
 		"@types/node": "^25.6.0",
 		"tsx": "^4.21.0"
 	}

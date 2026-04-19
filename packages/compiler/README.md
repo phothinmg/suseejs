@@ -12,5 +12,5 @@ npm i -D @suseejs/compiler
 ```
 
 ```ts
-import { SuseeCompilers } from "@suseejs/compiler";
+import { suseeCompiler } from "@suseejs/compiler";
 ```

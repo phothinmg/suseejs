@@ -19,7 +19,7 @@
 		}
 	},
 	"scripts": {
-		"build": "node build.mjs",
+		"build": "tsx build.ts",
 		"lint": "biome check src --write",
 		"fmt": "biome format --write",
 		"test": "tsx --test",
@@ -51,7 +51,10 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.4.12",
-		"@types/node": "^25.6.0"
+		"@suseejs/files": "file:../files",
+		"@suseejs/tsoptions": "file:../tsoptions",
+		"@types/node": "^25.6.0",
+		"tsx": "^4.21.0"
 	},
 	"dependencies": {
 		"@suseejs/compiler": "file:../compiler",
