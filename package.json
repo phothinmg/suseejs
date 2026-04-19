@@ -21,11 +21,11 @@
     "url": "https://phothinmg.github.io/"
   },
   "workspaces": [
-    "packages/utilities",
+    "packages/compiler",
     "packages/color",
     "packages/type",
+    "packages/utilities",
     "packages/tsoptions",
-    "packages/compiler",
     "packages/graph",
     "packages/files",
     "packages/bundler",
