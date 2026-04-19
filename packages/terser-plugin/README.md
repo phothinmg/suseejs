@@ -12,4 +12,5 @@ A Susee plugin that minifies JavaScript code using the Terser library.
 ```sh
 npm i -D @suseejs/terser-plugin
 ```
+
 **`terserMinifyOptions`** -> [See detail here](https://terser.org/docs/options/)

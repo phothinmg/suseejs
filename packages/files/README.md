@@ -12,5 +12,5 @@ npm i -D @suseejs/files
 ```
 
 ```ts
-import { generateGraph } from "@suseejs/graph";
+import { files } from "@suseejs/files";
 ```

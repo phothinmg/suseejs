@@ -70,14 +70,19 @@ function validateWorkspaceVersions(rootPackageJson) {
 
     for (const deps of dependencySets) {
       for (const [depName, depRange] of Object.entries(deps)) {
-        if (typeof depRange !== "string" || !depRange.startsWith("workspace:")) {
+        if (
+          typeof depRange !== "string" ||
+          !depRange.startsWith("workspace:")
+        ) {
           const internalDep = workspaceByName.get(depName);
           if (!internalDep) {
             continue;
           }
 
           if (depRange.length === 0) {
-            fail(`Package ${pkg.name} has an empty version range for ${depName}.`);
+            fail(
+              `Package ${pkg.name} has an empty version range for ${depName}.`,
+            );
           }
 
           continue;
@@ -86,7 +91,9 @@ function validateWorkspaceVersions(rootPackageJson) {
     }
   }
 
-  info(`Validated ${packages.length} workspace package version(s) and internal dependency references.`);
+  info(
+    `Validated ${packages.length} workspace package version(s) and internal dependency references.`,
+  );
 }
 
 function normalizeInternalDependencyRanges(rootPackageJson) {
@@ -103,14 +110,19 @@ function normalizeInternalDependencyRanges(rootPackageJson) {
   const versionByName = new Map(
     packages
       .filter((pkg) => pkg.manifest?.name && pkg.manifest?.version)
-      .map((pkg) => [pkg.manifest.name, pkg.manifest.version])
+      .map((pkg) => [pkg.manifest.name, pkg.manifest.version]),
   );
 
   let changedCount = 0;
 
   for (const pkg of packages) {
     let changed = false;
-    const depFields = ["dependencies", "peerDependencies", "optionalDependencies"];
+    const depFields = [
+      "dependencies",
+      "peerDependencies",
+      "optionalDependencies",
+      "devDependencies",
+    ];
 
     for (const field of depFields) {
       const deps = pkg.manifest[field];

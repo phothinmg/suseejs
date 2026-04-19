@@ -1,6 +1,6 @@
 {
   "name": "suseejs",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Susee Js Monorepo",
   "type": "module",
   "scripts": {
@@ -8,6 +8,9 @@
     "build": "npm run build --workspaces --if-present",
     "publish:ws": "npm publish --workspaces --if-present",
     "release:ws": "node release/index.mjs",
+    "v:patch": "npm version patch --no-git-tag-version && npm version patch --workspaces",
+    "v:minor": "npm version minor --no-git-tag-version && npm version minor --workspaces",
+    "v:major": "npm version major --no-git-tag-version && npm version major --workspaces",
     "commit": "bash scripts/commit.sh",
     "test": "npm run test --workspaces --if-present",
     "coverage": "bash scripts/coverage.sh"

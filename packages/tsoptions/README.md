@@ -2,15 +2,13 @@
 <!-- markdownlint-disable MD041 -->
 <div align="center">
 <img src="https://susee.phothin.dev/logo/susee.webp" width="160" height="160" alt="susee" />
-  <h1>Susee Terminal Color</h1>
+  <h1>Susee Ts Options</h1>
 </div>
 
-Terminal color
-
 ```sh
-npm i -D @suseejs/color
+npm i -D @suseejs/tsoptions
 ```
 
 ```ts
-import tcolor from "@suseejs/color";
+import { getCompilerOptions } from "@suseejs/tsoptions";
 ```

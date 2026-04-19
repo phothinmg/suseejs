@@ -5,12 +5,12 @@
   <h1>Susee Bundler</h1>
 </div>
 
-NodeJs File System for SuseeJs
+Bundler for SuseeJS
 
 ```sh
 npm i -D @suseejs/bundler
 ```
 
 ```ts
-import { generateGraph } from "@suseejs/graph";
+import { bundler } from "@suseejs/bundler";
 ```

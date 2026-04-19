@@ -1,6 +1,6 @@
 {
 	"name": "@suseejs/graph",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "Generate dependencies graph.",
 	"type": "module",
 	"main": "dist/index.cjs",
