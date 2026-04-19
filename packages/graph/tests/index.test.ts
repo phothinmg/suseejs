@@ -152,10 +152,7 @@ describe("generateGraph", () => {
 			const graph = generateGraph("src/entry.ts");
 
 			const npm = graph.npm();
-			assert.strictEqual(
-				npm.filter((name) => name === "typescript").length,
-				2,
-			);
+			assert.strictEqual(npm.filter((name) => name === "typescript").length, 2);
 
 			const node = graph.node();
 			assert.strictEqual(node.filter((name) => name === "fs").length, 2);

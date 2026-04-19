@@ -39,10 +39,19 @@ describe("files namespace", () => {
 	});
 
 	it("resolves and normalizes helper paths", () => {
-		assert.strictEqual(files.resolvePath("src/index.ts"), path.join(tempDir, "src/index.ts"));
-		assert.strictEqual(files.relativePath(path.join(tempDir, "src/index.ts")), "src/index.ts");
+		assert.strictEqual(
+			files.resolvePath("src/index.ts"),
+			path.join(tempDir, "src/index.ts"),
+		);
+		assert.strictEqual(
+			files.relativePath(path.join(tempDir, "src/index.ts")),
+			"src/index.ts",
+		);
 		assert.strictEqual(files.joinPath("a", "b", "c"), path.join("a", "b", "c"));
-		assert.strictEqual(files.parentPath("src/utils/helper.ts"), path.join(tempDir, "src/utils"));
+		assert.strictEqual(
+			files.parentPath("src/utils/helper.ts"),
+			path.join(tempDir, "src/utils"),
+		);
 	});
 
 	it("writes, reads and deletes files with byte metadata", async () => {
@@ -74,7 +83,10 @@ describe("files namespace", () => {
 	});
 
 	it("reads and parses JSON files", async () => {
-		await files.writeFile("config.json", JSON.stringify({ enabled: true, retry: 2 }));
+		await files.writeFile(
+			"config.json",
+			JSON.stringify({ enabled: true, retry: 2 }),
+		);
 		const json = await files.readJsonFile("config.json");
 
 		assert.deepStrictEqual(json, { enabled: true, retry: 2 });
@@ -96,7 +108,9 @@ describe("files namespace", () => {
 			".",
 		);
 
-		const pkg = JSON.parse(fs.readFileSync(path.join(tempDir, "package.json"), "utf8"));
+		const pkg = JSON.parse(
+			fs.readFileSync(path.join(tempDir, "package.json"), "utf8"),
+		);
 		assert.strictEqual(pkg.type, "module");
 		assert.strictEqual(pkg.main, "dist/index.cjs");
 		assert.strictEqual(pkg.module, "dist/index.mjs");
@@ -142,7 +156,9 @@ describe("files namespace", () => {
 			"./feature",
 		);
 
-		const pkg = JSON.parse(fs.readFileSync(path.join(tempDir, "package.json"), "utf8"));
+		const pkg = JSON.parse(
+			fs.readFileSync(path.join(tempDir, "package.json"), "utf8"),
+		);
 		assert.strictEqual(pkg.main, "dist/root.cjs");
 		assert.strictEqual(pkg.module, "dist/root.mjs");
 		assert.strictEqual(pkg.types, "dist/root.d.ts");

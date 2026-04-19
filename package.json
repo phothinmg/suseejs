@@ -26,7 +26,10 @@
     "packages/compiler",
     "packages/graph",
     "packages/files",
-    "packages/bundler"
+    "packages/bundler",
+    "packages/commonjs-plugin",
+    "packages/terser-plugin",
+    "packages/banner-text-plugin"
   ],
   "repository": {
     "type": "git",

@@ -24,6 +24,11 @@ done
 
 # Get commit message
 read -p "Enter commit message: " message
+# Run linter
+npm run lint --workspaces --if-present
+# Run formatter
+npm run fmt --workspaces --if-present
+# Generate coverage report
 npm run coverage
 # Get full commit message pattern
 # <Type>: <message>

@@ -1,7 +1,8 @@
 {
-	"name": "@suseejs/utilities",
+	"name": "@suseejs/commonjs-plugin",
 	"version": "0.0.1",
-	"description": "Utilities for suseejs",
+	"description": "Susee Plugin CommonJs",
+	"type": "module",
 	"main": "dist/index.cjs",
 	"types": "dist/index.d.cts",
 	"module": "dist/index.mjs",
@@ -34,7 +35,7 @@
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/phothinmg/suseejs.git",
-		"directory": "packages/utilities"
+		"directory": "packages/commonjs-plugin"
 	},
 	"files": [
 		"dist",
@@ -47,12 +48,14 @@
 		"provenance": true
 	},
 	"dependencies": {
-		"@suseejs/color": "file:../color",
 		"typescript": "^6.0.3"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.4.12",
 		"@suseejs/compiler": "file:../compiler",
-		"@types/node": "^25.6.0"
+		"@suseejs/type": "file:../type",
+		"@suseejs/utilities": "file:../utilities",
+		"@types/node": "^25.6.0",
+		"tsx": "^4.21.0"
 	}
 }

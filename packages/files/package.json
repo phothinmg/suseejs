@@ -1,61 +1,61 @@
 {
-  "name": "@suseejs/files",
-  "version": "0.0.1",
-  "description": "NodeJs File System for SuseeJs",
-  "type": "module",
-  "main": "dist/index.cjs",
-  "types": "dist/index.d.cts",
-  "module": "dist/index.mjs",
-  "exports": {
-    ".": {
-      "import": {
-        "types": "./dist/index.d.mts",
-        "default": "./dist/index.mjs"
-      },
-      "require": {
-        "types": "./dist/index.d.cts",
-        "default": "./dist/index.cjs"
-      }
-    }
-  },
-  "scripts": {
-    "build": "node build.mjs",
-    "lint": "biome check src --write",
-    "fmt": "biome format --write",
-    "test": "tsx --test",
-    "lcov": "tsx --test --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=tests/lcov.info"
-  },
-  "author": {
-    "name": "Pho Thin Mg",
-    "email": "phothinmg@disroot.org",
-    "url": "https://phothinmg.github.io/"
-  },
-  "keywords": [
-    "suseejs"
-  ],
-  "license": "Apache-2.0",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/phothinmg/suseejs.git",
-    "directory": "packages/files"
-  },
-  "files": [
-    "dist",
-    "LICENSE",
-    "README.md",
-    "package.json"
-  ],
-  "publishConfig": {
-    "access": "public",
-    "provenance": true
-  },
-  "devDependencies": {
-    "@biomejs/biome": "^2.4.12",
-    "@suseejs/compiler": "file:../compiler",
-    "@types/node": "^25.6.0",
-    "typescript": "^6.0.3"
-  },
-  "dependencies": {
-    "@suseejs/color": "file:../color"
-  }
+	"name": "@suseejs/files",
+	"version": "0.0.1",
+	"description": "NodeJs File System for SuseeJs",
+	"type": "module",
+	"main": "dist/index.cjs",
+	"types": "dist/index.d.cts",
+	"module": "dist/index.mjs",
+	"exports": {
+		".": {
+			"import": {
+				"types": "./dist/index.d.mts",
+				"default": "./dist/index.mjs"
+			},
+			"require": {
+				"types": "./dist/index.d.cts",
+				"default": "./dist/index.cjs"
+			}
+		}
+	},
+	"scripts": {
+		"build": "node build.mjs",
+		"lint": "biome check src --write",
+		"fmt": "biome format --write",
+		"test": "tsx --test",
+		"lcov": "tsx --test --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=tests/lcov.info"
+	},
+	"author": {
+		"name": "Pho Thin Mg",
+		"email": "phothinmg@disroot.org",
+		"url": "https://phothinmg.github.io/"
+	},
+	"keywords": [
+		"suseejs"
+	],
+	"license": "Apache-2.0",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/phothinmg/suseejs.git",
+		"directory": "packages/files"
+	},
+	"files": [
+		"dist",
+		"LICENSE",
+		"README.md",
+		"package.json"
+	],
+	"publishConfig": {
+		"access": "public",
+		"provenance": true
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.4.12",
+		"@suseejs/compiler": "file:../compiler",
+		"@types/node": "^25.6.0",
+		"typescript": "^6.0.3"
+	},
+	"dependencies": {
+		"@suseejs/color": "file:../color"
+	}
 }

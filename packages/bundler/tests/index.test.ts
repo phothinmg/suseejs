@@ -9,7 +9,9 @@ import type { DepsFile } from "@suseejs/type";
 const jsonFile = "/tmp/project/src/config.json";
 const consumerFile = "/tmp/project/src/main.ts";
 
-function createBaseDeps(content = "import cfg from './config.json';\n"): DepsFile[] {
+function createBaseDeps(
+	content = "import cfg from './config.json';\n",
+): DepsFile[] {
 	return [
 		{
 			file: jsonFile,
@@ -38,23 +40,19 @@ describe("resolveJSONHandler", () => {
 		assert.strictEqual(jsonDep?.moduleType, "esm");
 		assert.match(jsonDep?.content as string, /const __jsonModule__/);
 		assert.match(jsonDep?.content as string, /"app": "bundler"/);
-		assert.match(
-			jsonDep?.content as string,
-			/export default __jsonModule__/,
-		);
+		assert.match(jsonDep?.content as string, /export default __jsonModule__/);
 	});
 
 	it("rewrites default json imports to const bindings", async () => {
-		const deps = createBaseDeps("import cfg from './config.json';\nconsole.log(cfg.app);\n");
+		const deps = createBaseDeps(
+			"import cfg from './config.json';\nconsole.log(cfg.app);\n",
+		);
 		const resolved = await resolveJSONHandler(deps);
 		const consumer = resolved.find((d) => d.file === consumerFile);
 
 		assert.ok(consumer);
 		assert.doesNotMatch(consumer?.content as string, /import\s+cfg\s+from/);
-		assert.match(
-			consumer?.content as string,
-			/const cfg = __jsonModule__/,
-		);
+		assert.match(consumer?.content as string, /const cfg = __jsonModule__/);
 		assert.match(consumer?.content as string, /console\.log\(cfg\.app\)/);
 	});
 
@@ -82,7 +80,10 @@ describe("resolveJSONHandler", () => {
 		const consumer = resolved.find((d) => d.file === consumerFile);
 
 		assert.ok(consumer);
-		assert.doesNotMatch(consumer?.content as string, /require\('\.\/config\.json'\)/);
+		assert.doesNotMatch(
+			consumer?.content as string,
+			/require\('\.\/config\.json'\)/,
+		);
 		assert.match(consumer?.content as string, /const cfg = __jsonModule__/);
 		assert.match(consumer?.content as string, /module\.exports = cfg/);
 	});
