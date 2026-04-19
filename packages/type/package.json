@@ -18,7 +18,7 @@
 		}
 	},
 	"scripts": {
-		"build": "tsc",
+		"build": "node build.mjs",
 		"lint": "biome check src --write",
 		"fmt": "biome format --write"
 	},
@@ -45,5 +45,8 @@
 	"publishConfig": {
 		"access": "public",
 		"provenance": true
+	},
+	"dependencies": {
+		"@suseejs/compiler": "file:../compiler"
 	}
 }

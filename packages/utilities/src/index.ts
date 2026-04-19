@@ -6,17 +6,17 @@ import path from "node:path";
 import process from "node:process";
 namespace utils {
   export namespace checks {
-    /**
-     * Checks the given source file for module type (CommonJS or ESM).
-     * @param sourceFile - The source file to check.
-     * @param file - The file path of the source file.
-     * @returns An object containing the results of the check.
-     * @returns {isCommonJs: boolean, isEsm: boolean}
-     */
-    export const moduleType = (sourceFile: ts.SourceFile, file: string) => {
+    export const moduleType = (content: string, file: string) => {
       let _esmCount = 0;
       let cjsCount = 0;
       let unknownCount = 0;
+
+      const sourceFile = ts.createSourceFile(
+        file,
+        content,
+        ts.ScriptTarget.Latest,
+        true,
+      );
 
       try {
         let hasESMImports = false;
@@ -450,7 +450,35 @@ namespace utils {
       }
 
       return mergedImports.sort();
-    }
+    } //--
+    /**
+     * Applies a given transformer to a source file and returns the modified code.
+     * @param transformer A transformer factory that will be called with the source file.
+     * @param sourceFile The source file to which the transformer will be applied.
+     * @param compilerOptions Compiler options to use when applying the transformer.
+     * @returns The modified code after applying the transformer.
+     */
+    export function transformFunction(
+      transformer: ts.TransformerFactory<ts.SourceFile>,
+      sourceFile: ts.SourceFile,
+      compilerOptions: ts.CompilerOptions,
+    ) {
+      const transformationResult = ts.transform(
+        sourceFile,
+        [transformer],
+        compilerOptions,
+      );
+      const transformedSourceFile = transformationResult.transformed[0];
+      const printer = ts.createPrinter({
+        newLine: ts.NewLineKind.LineFeed,
+        removeComments: false,
+      });
+      const modifiedCode = printer.printFile(
+        transformedSourceFile as ts.SourceFile,
+      );
+      transformationResult.dispose();
+      return modifiedCode;
+    } //--
   } // namespace gen
 } // namespace utils
 
