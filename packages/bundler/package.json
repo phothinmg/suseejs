@@ -21,8 +21,7 @@
 	"scripts": {
 		"build": "tsx build.ts",
 		"lint": "biome check src --write",
-		"fmt": "biome format --write",
-		"test": "tsx --test"
+		"fmt": "biome format --write"
 	},
 	"author": {
 		"name": "Pho Thin Mg",
