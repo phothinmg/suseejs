@@ -25,9 +25,9 @@
   },
   "workspaces": [
     "packages/compiler",
+    "packages/color",
     "packages/tsoptions",
     "packages/files",
-    "packages/color",
     "packages/type",
     "packages/utilities",
     "packages/graph",
