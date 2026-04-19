@@ -1,6 +1,6 @@
 {
 	"name": "@suseejs/utilities",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "Utilities for suseejs",
 	"main": "dist/index.cjs",
 	"types": "dist/index.d.cts",
