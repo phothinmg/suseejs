@@ -1,12 +1,11 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { execSync } from "node:child_process";
 import { join } from "node:path";
-import tcolor from "@suseejs/color";
 
 const CHECK_ONLY = process.argv.includes("--check-only");
 
 function fail(message) {
-  console.error(tcolor.magenta(`\n[release:ws] ${message}`));
+  console.error(`\n[release:ws] ${message}`);
   process.exit(1);
 }
 
@@ -29,7 +28,7 @@ function readJson(path) {
 function writeJson(path, data) {
   writeFileSync(path, `${JSON.stringify(data, null, 2)}\n`, "utf8");
 }
-//---------------
+
 function validateWorkspaceVersions(rootPackageJson) {
   const workspacePaths = Array.isArray(rootPackageJson.workspaces)
     ? rootPackageJson.workspaces
@@ -71,19 +70,14 @@ function validateWorkspaceVersions(rootPackageJson) {
 
     for (const deps of dependencySets) {
       for (const [depName, depRange] of Object.entries(deps)) {
-        if (
-          typeof depRange !== "string" ||
-          !depRange.startsWith("workspace:")
-        ) {
+        if (typeof depRange !== "string" || !depRange.startsWith("workspace:")) {
           const internalDep = workspaceByName.get(depName);
           if (!internalDep) {
             continue;
           }
 
           if (depRange.length === 0) {
-            fail(
-              `Package ${pkg.name} has an empty version range for ${depName}.`,
-            );
+            fail(`Package ${pkg.name} has an empty version range for ${depName}.`);
           }
 
           continue;
@@ -92,9 +86,7 @@ function validateWorkspaceVersions(rootPackageJson) {
     }
   }
 
-  info(
-    `Validated ${packages.length} workspace package version(s) and internal dependency references.`,
-  );
+  info(`Validated ${packages.length} workspace package version(s) and internal dependency references.`);
 }
 
 function normalizeInternalDependencyRanges(rootPackageJson) {
@@ -111,18 +103,14 @@ function normalizeInternalDependencyRanges(rootPackageJson) {
   const versionByName = new Map(
     packages
       .filter((pkg) => pkg.manifest?.name && pkg.manifest?.version)
-      .map((pkg) => [pkg.manifest.name, pkg.manifest.version]),
+      .map((pkg) => [pkg.manifest.name, pkg.manifest.version])
   );
 
   let changedCount = 0;
 
   for (const pkg of packages) {
     let changed = false;
-    const depFields = [
-      "dependencies",
-      "peerDependencies",
-      "optionalDependencies",
-    ];
+    const depFields = ["dependencies", "peerDependencies", "optionalDependencies"];
 
     for (const field of depFields) {
       const deps = pkg.manifest[field];
@@ -177,3 +165,27 @@ function ensureNpmAuth() {
     fail("npm authentication check failed. Run npm login and try again.");
   }
 }
+
+function main() {
+  const rootPackageJson = readJson("package.json");
+
+  ensureCleanGitTree();
+  ensureNpmAuth();
+  validateWorkspaceVersions(rootPackageJson);
+  normalizeInternalDependencyRanges(rootPackageJson);
+
+  info("Building workspaces...");
+  run("npm run build");
+
+  if (CHECK_ONLY) {
+    info("Check-only mode enabled. Skipping publish.");
+    return;
+  }
+
+  info("Publishing workspaces...");
+  run("npm run publish:ws");
+
+  info("Workspace release completed.");
+}
+
+main();

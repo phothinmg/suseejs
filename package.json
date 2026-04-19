@@ -5,6 +5,9 @@
   "type": "module",
   "scripts": {
     "hooks:install": "bash scripts/install-hooks.sh",
+    "build": "npm run build --workspaces --if-present",
+    "publish:ws": "npm publish --workspaces --if-present",
+    "release:ws": "node release/index.mjs",
     "commit": "bash scripts/commit.sh",
     "test": "npm run test --workspaces --if-present",
     "coverage": "bash scripts/coverage.sh"
