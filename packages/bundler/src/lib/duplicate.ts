@@ -1,5 +1,4 @@
 // cSpell:disable
-
 import type {
 	BundledHandler,
 	DepsFile,
@@ -8,7 +7,11 @@ import type {
 } from "@suseejs/type";
 import { utils } from "@suseejs/utilities";
 import ts from "typescript";
-import { getFileKey, getModuleKeyFromSpecifier } from "./helpers.js";
+import {
+	getFileKey,
+	getModuleKeyFromSpecifier,
+	jsonExtToTs,
+} from "./helpers.js";
 import { uniqueName } from "./uniqueName.js";
 
 // construct maps
@@ -32,7 +35,7 @@ const duplicateCallExpression = (
 ): BundledHandler => {
 	return ({ file, content, ...rest }: DepsFile): DepsFile => {
 		const sourceFile = ts.createSourceFile(
-			file,
+			jsonExtToTs(file),
 			content,
 			ts.ScriptTarget.Latest,
 			true,
@@ -182,7 +185,7 @@ const duplicateExportExpression = (
 ): BundledHandler => {
 	return ({ file, content, ...rest }: DepsFile): DepsFile => {
 		const sourceFile = ts.createSourceFile(
-			file,
+			jsonExtToTs(file),
 			content,
 			ts.ScriptTarget.Latest,
 			true,
@@ -270,7 +273,7 @@ const duplicateImportExpression = (
 ): BundledHandler => {
 	return ({ file, content, ...rest }: DepsFile): DepsFile => {
 		const sourceFile = ts.createSourceFile(
-			file,
+			jsonExtToTs(file),
 			content,
 			ts.ScriptTarget.Latest,
 			true,
@@ -391,7 +394,7 @@ const duplicateCollector = (
 ): BundledHandler => {
 	return ({ file, content, ...rest }: DepsFile): DepsFile => {
 		const sourceFile = ts.createSourceFile(
-			file,
+			jsonExtToTs(file),
 			content,
 			ts.ScriptTarget.Latest,
 			true,
@@ -484,7 +487,7 @@ const duplicateUpdater = (
 ): BundledHandler => {
 	return ({ file, content, ...rest }: DepsFile): DepsFile => {
 		const sourceFile = ts.createSourceFile(
-			file,
+			jsonExtToTs(file),
 			content,
 			ts.ScriptTarget.Latest,
 			true,

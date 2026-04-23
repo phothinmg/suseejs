@@ -2,6 +2,7 @@ import path from "node:path";
 import type { BundledHandler, DepsFile, NamesSets } from "@suseejs/type";
 import { utils } from "@suseejs/utilities";
 import ts from "typescript";
+import { jsonExtToTs } from "./helpers.js";
 import { uniqueName } from "./uniqueName.js";
 
 const anonymousExportNameMap: NamesSets = [];
@@ -22,7 +23,7 @@ function anonymousCallExpressionHandler(
 ): BundledHandler {
 	return ({ file, content, ...rest }: DepsFile): DepsFile => {
 		const sourceFile = ts.createSourceFile(
-			file,
+			jsonExtToTs(file),
 			content,
 			ts.ScriptTarget.Latest,
 			true,
@@ -110,7 +111,7 @@ function anonymousExportHandler(
 ): BundledHandler {
 	return ({ file, content, ...rest }: DepsFile): DepsFile => {
 		const sourceFile = ts.createSourceFile(
-			file,
+			jsonExtToTs(file),
 			content,
 			ts.ScriptTarget.Latest,
 			true,
@@ -406,7 +407,7 @@ function anonymousImportHandler(
 ): BundledHandler {
 	return ({ file, content, ...rest }: DepsFile): DepsFile => {
 		const sourceFile = ts.createSourceFile(
-			file,
+			jsonExtToTs(file),
 			content,
 			ts.ScriptTarget.Latest,
 			true,

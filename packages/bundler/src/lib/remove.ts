@@ -6,6 +6,7 @@ import type {
 } from "@suseejs/type";
 import { utils } from "@suseejs/utilities";
 import ts from "typescript";
+import { jsonExtToTs } from "./helpers.js";
 
 let properties: string[] = [];
 const typeObj: TypeObj = {};
@@ -31,7 +32,7 @@ function esmExportRemoveHandler(
 ): BundledHandler {
 	return ({ file, content, ...rest }: DepsFile): DepsFile => {
 		const sourceFile = ts.createSourceFile(
-			file,
+			jsonExtToTs(file),
 			content,
 			ts.ScriptTarget.Latest,
 			true,
@@ -152,7 +153,7 @@ function importAllRemoveHandler(
 ): BundledHandler {
 	return ({ file, content, ...rest }: DepsFile): DepsFile => {
 		const sourceFile = ts.createSourceFile(
-			file,
+			jsonExtToTs(file),
 			content,
 			ts.ScriptTarget.Latest,
 			true,

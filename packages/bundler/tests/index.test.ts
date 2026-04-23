@@ -3,7 +3,7 @@ import { describe, it } from "node:test";
 import { anonymousHandler } from "../src/lib/anonymous.js";
 import { exportDefaultHandler } from "../src/lib/exportDefault.js";
 import { duplicateHandlers } from "../src/lib/duplicate.js";
-import { resolveJSONHandler } from "../src/lib/resolveJSON.js";
+import { jsonModuleHandlers } from "../src/lib/resolveJSON.js";
 import type { DepsFile } from "@suseejs/type";
 
 const jsonFile = "/tmp/project/src/config.json";
@@ -30,10 +30,10 @@ function createBaseDeps(
 	];
 }
 
-describe("resolveJSONHandler", () => {
+describe("jsonModuleHandlers", () => {
 	it("converts json dependency into js object module with default export", async () => {
 		const deps = createBaseDeps();
-		const resolved = await resolveJSONHandler(deps);
+		const resolved = await jsonModuleHandlers(deps, {});
 		const jsonDep = resolved.find((d) => d.file === jsonFile);
 
 		assert.ok(jsonDep);
@@ -43,48 +43,69 @@ describe("resolveJSONHandler", () => {
 		assert.match(jsonDep?.content as string, /export default __jsonModule__/);
 	});
 
-	it("rewrites default json imports to const bindings", async () => {
+	it("renames default json imports and rewrites their local usages", async () => {
 		const deps = createBaseDeps(
 			"import cfg from './config.json';\nconsole.log(cfg.app);\n",
 		);
-		const resolved = await resolveJSONHandler(deps);
+		const resolved = await jsonModuleHandlers(deps, {});
 		const consumer = resolved.find((d) => d.file === consumerFile);
 
 		assert.ok(consumer);
-		assert.doesNotMatch(consumer?.content as string, /import\s+cfg\s+from/);
-		assert.match(consumer?.content as string, /const cfg = __jsonModule__/);
-		assert.match(consumer?.content as string, /console\.log\(cfg\.app\)/);
+		assert.match(consumer?.content as string, /import\s+__jsonModule__/);
+		assert.match(
+			consumer?.content as string,
+			/console\.log\(__jsonModule__.*\.app\)/,
+		);
+		assert.doesNotMatch(consumer?.content as string, /\bcfg\b/);
 	});
 
-	it("rewrites named and namespace json imports", async () => {
+	it("supports json import attributes and rewrites default binding usages", async () => {
+		const deps = createBaseDeps(
+			"import cfg from './config.json' with { type: 'json' };\nconsole.log(cfg.app);\n",
+		);
+		const resolved = await jsonModuleHandlers(deps, {});
+		const consumer = resolved.find((d) => d.file === consumerFile);
+
+		assert.ok(consumer);
+		assert.match(consumer?.content as string, /import\s+__jsonModule__/);
+		assert.match(
+			consumer?.content as string,
+			/with\s*\{\s*type\s*:\s*["']json["']\s*\}/,
+		);
+		assert.match(
+			consumer?.content as string,
+			/console\.log\(__jsonModule__.*\.app\)/,
+		);
+		assert.doesNotMatch(consumer?.content as string, /\bcfg\b/);
+	});
+
+	it("keeps named and namespace json imports unchanged", async () => {
 		const deps = createBaseDeps(
 			"import * as cfg from './config.json';\nimport { app as appName } from './config.json';\nconsole.log(cfg.count, appName);\n",
 		);
-		const resolved = await resolveJSONHandler(deps);
+		const resolved = await jsonModuleHandlers(deps, {});
 		const consumer = resolved.find((d) => d.file === consumerFile);
 
 		assert.ok(consumer);
-		assert.doesNotMatch(consumer?.content as string, /from '\.\/config\.json'/);
-		assert.match(consumer?.content as string, /const cfg = __jsonModule__/);
 		assert.match(
 			consumer?.content as string,
-			/const appName = __jsonModule__[A-Za-z0-9_]*\.app/,
+			/import \* as cfg from '\.\/config\.json'/,
+		);
+		assert.match(
+			consumer?.content as string,
+			/import \{ app as appName \} from '\.\/config\.json'/,
 		);
 	});
 
-	it("rewrites require json calls to generated object binding", async () => {
+	it("keeps require json calls unchanged in importer files", async () => {
 		const deps = createBaseDeps(
 			"const cfg = require('./config.json');\nmodule.exports = cfg;\n",
 		);
-		const resolved = await resolveJSONHandler(deps);
+		const resolved = await jsonModuleHandlers(deps, {});
 		const consumer = resolved.find((d) => d.file === consumerFile);
 
 		assert.ok(consumer);
-		assert.doesNotMatch(
-			consumer?.content as string,
-			/require\('\.\/config\.json'\)/,
-		);
-		assert.match(consumer?.content as string, /const cfg = __jsonModule__/);
+		assert.match(consumer?.content as string, /require\('\.\/config\.json'\)/);
 		assert.match(consumer?.content as string, /module\.exports = cfg/);
 	});
 
@@ -99,7 +120,7 @@ describe("resolveJSONHandler", () => {
 			},
 		];
 
-		const resolved = await resolveJSONHandler(deps);
+		const resolved = await jsonModuleHandlers(deps, {});
 		assert.deepStrictEqual(resolved, deps);
 	});
 });

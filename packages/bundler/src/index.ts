@@ -9,7 +9,7 @@ import { duplicateHandlers } from "./lib/duplicate.js";
 import { exportDefaultHandler } from "./lib/exportDefault.js";
 import { isJSON } from "./lib/helpers.js";
 import { removeHandlers } from "./lib/remove.js";
-import { resolveJSONHandler } from "./lib/resolveJSON.js";
+import { jsonModuleHandlers } from "./lib/resolveJSON.js";
 import cleanUnusedCode from "./lib/unusedCode.js";
 
 async function bundler(
@@ -29,7 +29,7 @@ async function bundler(
 	let depsFiles = tree.depFiles;
 	// 1. Resolve JSON Modules
 	if (isJSON(tree)) {
-		depsFiles = await resolveJSONHandler(depsFiles);
+		depsFiles = await jsonModuleHandlers(depsFiles, compilerOptions);
 	}
 	// 2. Parse Dependency Plugins
 	if (plugins.length > 0) {
@@ -76,7 +76,8 @@ async function bundler(
 	const mainFile = depsFiles.slice(-1);
 	// 8. Handling Imported Statements
 	// filter removed statements , that not from local like `./` or `../`
-	const regexp = /["']((?!\.\/|\.\.\/)[^"']+)["']/;
+	const regexp =
+		/^\s*import(?:[\s\S]*?\sfrom\s+)?["']((?!\.{1,2}\/)[^"']+)["']/;
 	removedStatements = removedStatements.filter((i) => regexp.test(i));
 	removedStatements = utils.gen.mergeImportsStatement(removedStatements);
 	const importStatements = removedStatements.join("\n").trim();

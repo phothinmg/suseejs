@@ -1,7 +1,11 @@
 import type { BundledHandler, DepsFile, NamesSets } from "@suseejs/type";
 import { utils } from "@suseejs/utilities";
 import ts from "typescript";
-import { getFileKey, getModuleKeyFromSpecifier } from "./helpers.js";
+import {
+	getFileKey,
+	getModuleKeyFromSpecifier,
+	jsonExtToTs,
+} from "./helpers.js";
 import { uniqueName } from "./uniqueName.js";
 
 const exportDefaultExportNameMap: NamesSets = [];
@@ -21,7 +25,8 @@ let exportDefaultName = createExportDefaultNameGenerator();
 function exportDefaultCallExpressionHandler(
 	compilerOptions: ts.CompilerOptions,
 ): BundledHandler {
-	return ({ file, content, ...rest }: DepsFile): DepsFile => {
+	return ({ file, content, fileExt, ...rest }: DepsFile): DepsFile => {
+		if (fileExt === ".json") return { file, content, fileExt, ...rest };
 		const sourceFile = ts.createSourceFile(
 			file,
 			content,
@@ -161,14 +166,15 @@ function exportDefaultCallExpressionHandler(
 			compilerOptions,
 		);
 		// return : handler
-		return { file, content: _content, ...rest } as DepsFile;
+		return { file, content: _content, fileExt, ...rest } as DepsFile;
 	};
 }
 //--
 function exportDefaultExportHandler(
 	compilerOptions: ts.CompilerOptions,
 ): BundledHandler {
-	return ({ file, content, ...rest }: DepsFile): DepsFile => {
+	return ({ file, content, fileExt, ...rest }: DepsFile): DepsFile => {
+		if (fileExt === ".json") return { file, content, fileExt, ...rest };
 		const sourceFile = ts.createSourceFile(
 			file,
 			content,
@@ -259,14 +265,15 @@ function exportDefaultExportHandler(
 			sourceFile,
 			compilerOptions,
 		);
-		return { file, content: _content, ...rest };
+		return { file, content: _content, fileExt, ...rest };
 	};
 }
 //--
 function exportDefaultImportHandler(
 	compilerOptions: ts.CompilerOptions,
 ): BundledHandler {
-	return ({ file, content, ...rest }: DepsFile): DepsFile => {
+	return ({ file, content, fileExt, ...rest }: DepsFile): DepsFile => {
+		if (fileExt === ".json") return { file, content, fileExt, ...rest };
 		const sourceFile = ts.createSourceFile(
 			file,
 			content,
@@ -323,14 +330,15 @@ function exportDefaultImportHandler(
 			sourceFile,
 			compilerOptions,
 		);
-		return { file, content: _content, ...rest };
+		return { file, content: _content, fileExt, ...rest };
 	};
 }
 
 function exportDefaultUpdateHandler(
 	compilerOptions: ts.CompilerOptions,
 ): BundledHandler {
-	return ({ file, content, ...rest }: DepsFile): DepsFile => {
+	return ({ file, content, fileExt, ...rest }: DepsFile): DepsFile => {
+		if (fileExt === ".json") return { file, content, fileExt, ...rest };
 		const sourceFile = ts.createSourceFile(
 			file,
 			content,
@@ -527,7 +535,7 @@ function exportDefaultUpdateHandler(
 			sourceFile,
 			compilerOptions,
 		);
-		return { file, content: _content, ...rest };
+		return { file, content: _content, fileExt, ...rest };
 	};
 }
 //--

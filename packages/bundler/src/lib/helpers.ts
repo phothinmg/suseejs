@@ -8,7 +8,13 @@ export const isJSON = (tree: DependenciesTree): boolean => {
 	);
 	return !!json;
 };
-
+export const jsonExtToTs = (file: string) => {
+	if (path.extname(file) === ".json") {
+		return file.replace(/.json/g, ".ts");
+	} else {
+		return file;
+	}
+};
 const normalizePathKey = (filePath: string) => {
 	const parsed = path.parse(filePath);
 	let noExt = path.join(parsed.dir, parsed.name);
