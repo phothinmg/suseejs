@@ -46,7 +46,6 @@ const resolveJSONHandler = async (deps: DepsFile[]): Promise<DepsFile[]> => {
 			newName: jsonVarName,
 			isEd: true,
 		});
-		const txt = toJsonModuleCode(jsonVarName, dep.content, dep.file);
 		return {
 			...dep,
 			content: toJsonModuleCode(jsonVarName, dep.content, dep.file),

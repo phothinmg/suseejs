@@ -1,11 +1,7 @@
 import type { BundledHandler, DepsFile, NamesSets } from "@suseejs/type";
 import { utils } from "@suseejs/utilities";
 import ts from "typescript";
-import {
-	getFileKey,
-	getModuleKeyFromSpecifier,
-	jsonExtToTs,
-} from "./helpers.js";
+import { getFileKey, getModuleKeyFromSpecifier } from "./helpers.js";
 import { uniqueName } from "./uniqueName.js";
 
 const exportDefaultExportNameMap: NamesSets = [];
