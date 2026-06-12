@@ -56,7 +56,7 @@
 		"@suseejs/files": "file:../files",
 		"@suseejs/tsoptions": "file:../tsoptions",
 		"@types/node": "^25.6.0",
-		"tsx": "^4.21.0"
+		"tsx": "^4.22.4"
 	},
 	"type": "module"
 }
