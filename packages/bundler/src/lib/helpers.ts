@@ -39,7 +39,10 @@ export const getModuleKeyFromSpecifier = (
 	}
 	if (spec.startsWith(".") || spec.startsWith("/")) {
 		const baseDir = path.dirname(containingFile);
-		return normalizePathKey(path.resolve(baseDir, spec));
+		const resolved = path.isAbsolute(containingFile)
+			? path.resolve(baseDir, spec)
+			: path.normalize(path.join(baseDir, spec));
+		return normalizePathKey(resolved);
 	}
 	return spec;
 };
