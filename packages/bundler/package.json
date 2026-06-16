@@ -1,6 +1,6 @@
 {
 	"name": "@suseejs/bundler",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"description": "Susee Bundler",
 	"type": "module",
 	"main": "dist/index.cjs",

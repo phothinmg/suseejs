@@ -1,6 +1,6 @@
 {
 	"name": "@suseejs/tsoptions",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"description": "Get typescript compiler options",
 	"type": "module",
 	"main": "dist/commonjs/index.js",
