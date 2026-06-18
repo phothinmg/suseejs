@@ -6,7 +6,17 @@ import { generateGraph } from "@suseejs/graph";
 import type { DependenciesTree, ValidExts } from "@suseejs/type";
 import { utils } from "@suseejs/utilities";
 
-const validExtensions = [".js", ".mjs", ".cjs", ".ts", ".mts", ".cts", ".json"];
+const validExtensions = [
+	".js",
+	".mjs",
+	".cjs",
+	".ts",
+	".mts",
+	".cts",
+	".tsx",
+	".jsx",
+	".json",
+];
 
 async function generateDependencies(entry: string): Promise<DependenciesTree> {
 	const graph = generateGraph(entry);
@@ -21,7 +31,9 @@ async function generateDependencies(entry: string): Promise<DependenciesTree> {
 		warns,
 		depFiles: [],
 	};
+	const entryBase = path.basename(entry);
 	for (const file of sorted) {
+		const fileBase = path.basename(file);
 		const fileExt = path.extname(file);
 		if (!validExtensions.includes(fileExt)) {
 			console.error(
@@ -36,18 +48,15 @@ async function generateDependencies(entry: string): Promise<DependenciesTree> {
 		const moduleType =
 			fileExt === ".json" ? "json" : mt.isCommonJs ? "cjs" : "esm";
 		const isJsx = utils.checks.isJsxContent(content);
-		if (isJsx) {
-			console.error(
-				`JSX syntax found in ${tcolor.magenta(file)} of your dependencies tree, its currently unsupported.`,
-			);
-			process.exit(1);
-		}
+		const isEntry = entryBase === fileBase;
 		tree.depFiles.push({
 			file,
 			content,
 			bytes,
 			moduleType,
 			fileExt: fileExt as ValidExts,
+			is_jsx: isJsx,
+			is_entry: isEntry,
 		});
 	}
 	return tree;

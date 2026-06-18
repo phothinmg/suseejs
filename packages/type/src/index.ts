@@ -10,6 +10,8 @@ export type ValidExts =
 	| ".ts"
 	| ".cts"
 	| ".mts"
+	| ".tsx"
+	| ".jsx"
 	| ".json";
 export interface DepsFile {
 	file: string;
@@ -17,6 +19,8 @@ export interface DepsFile {
 	bytes: number;
 	moduleType: "cjs" | "esm" | "json";
 	fileExt: ValidExts;
+	is_jsx: boolean;
+	is_entry: boolean;
 }
 export type DepsFiles = DepsFile[];
 export interface DependenciesTree {

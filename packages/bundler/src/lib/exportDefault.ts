@@ -169,8 +169,15 @@ function exportDefaultCallExpressionHandler(
 function exportDefaultExportHandler(
 	compilerOptions: ts.CompilerOptions,
 ): BundledHandler {
-	return ({ file, content, fileExt, ...rest }: DepsFile): DepsFile => {
-		if (fileExt === ".json") return { file, content, fileExt, ...rest };
+	return ({
+		file,
+		content,
+		fileExt,
+		is_entry,
+		...rest
+	}: DepsFile): DepsFile => {
+		if (fileExt === ".json" || is_entry)
+			return { file, content, fileExt, is_entry, ...rest };
 		const sourceFile = ts.createSourceFile(
 			file,
 			content,
@@ -261,7 +268,7 @@ function exportDefaultExportHandler(
 			sourceFile,
 			compilerOptions,
 		);
-		return { file, content: _content, fileExt, ...rest };
+		return { file, content: _content, fileExt, is_entry, ...rest };
 	};
 }
 //--
