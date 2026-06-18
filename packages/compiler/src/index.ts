@@ -4,6 +4,58 @@ export interface CompilerPrams {
 	sourceCode: string;
 	fileName: string;
 	compilerOptions: ts.CompilerOptions;
+	isJsx?: boolean;
+}
+
+/**
+ * Normalizes TypeScript compiler options when JSX compilation is requested.
+ *
+ * For JSX input, this validates that the source imports either React runtime
+ * modules or the configured `jsxImportSource` runtime package. When validation
+ * passes, it enables DOM libs and defaults `jsx` to `ReactJSX` if unset.
+ *
+ * @param {string} sourceCode - Source text to inspect for JSX runtime imports.
+ * @param {ts.CompilerOptions} compilerOptions - User-provided compiler options.
+ * @param {boolean} isJsx - Whether JSX mode is enabled for this compilation.
+ * @returns {ts.CompilerOptions} Compiler options to pass into program creation.
+ */
+function jsxCompilerOptions(
+	sourceCode: string,
+	compilerOptions: ts.CompilerOptions,
+	isJsx: boolean,
+) {
+	if (!isJsx) {
+		return compilerOptions;
+	}
+
+	const reactRegexp =
+		/import\s+(?:.*?)\s+from\s+(?:"react"|"react\/.*"|"react-dom\/.*"|"react-dom")/gm;
+	if (!reactRegexp.test(sourceCode)) {
+		if (!compilerOptions.jsxImportSource) {
+			console.error(
+				"[jsx-runtime-error]:\nJSX syntax found in bundled code,but its not react runtime,you need to be set jsxImportSource in tsconfig.",
+			);
+			process.exit(1);
+		}
+
+		const txt = compilerOptions.jsxImportSource;
+		const pattern = `import\\s+(?:.*?)\\s+from\\s+("${txt}"|"${txt}\\/.*")`;
+		const re = new RegExp(pattern, "gm");
+		if (!re.test(sourceCode)) {
+			console.error(
+				"[jsx-runtime-mismatch-error]:\nJSX syntax found in bundled code,but its not react runtime and jsx-runtime from bundled code and jsxImportSource from tsconfig are mismatched.`",
+			);
+			process.exit(1);
+		}
+	}
+
+	const { jsx, lib, ...rest } = compilerOptions;
+	const _jsx = jsx ?? ts.JsxEmit.ReactJSX;
+	return {
+		lib: ["dom", "dom.iterable", "esnext"],
+		jsx: _jsx,
+		...rest,
+	} as ts.CompilerOptions;
 }
 /**
  * Creates a ts.CompilerHost that can be used with the typescript compiler.
@@ -48,7 +100,9 @@ function suseeCompiler({
 	sourceCode,
 	fileName,
 	compilerOptions,
+	isJsx = false,
 }: CompilerPrams) {
+	compilerOptions = jsxCompilerOptions(sourceCode, compilerOptions, isJsx);
 	// create host
 	const _host = createHost(sourceCode, fileName);
 	const createdFiles: Record<string, string> = _host.createdFiles;

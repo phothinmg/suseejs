@@ -39,8 +39,6 @@ function getCompilerOptions(customConfigPath?: string | undefined): {
 	commonjs: (out_dir?: string | undefined) => ts.CompilerOptions;
 	esm: (out_dir?: string | undefined) => ts.CompilerOptions;
 	defaultOptions: () => ts.CompilerOptions;
-	commonjs_jsx: (out_dir?: string | undefined) => ts.CompilerOptions;
-	esm_jsx: (out_dir?: string | undefined) => ts.CompilerOptions;
 } {
 	let tsconfig_opts: ts.CompilerOptions | undefined;
 	const config_path = getConfigPath(customConfigPath);
@@ -54,6 +52,7 @@ function getCompilerOptions(customConfigPath?: string | undefined): {
 		);
 		tsconfig_opts = { ...parsed.options };
 	}
+
 	const commonjs = (out_dir?: string | undefined): ts.CompilerOptions => {
 		const _out = out_dir ? out_dir : "dist";
 		if (tsconfig_opts !== undefined) {
@@ -70,37 +69,6 @@ function getCompilerOptions(customConfigPath?: string | undefined): {
 				outDir: _out,
 				module: ts.ModuleKind.CommonJS,
 				target: ts.ScriptTarget.Latest,
-			} as ts.CompilerOptions;
-		}
-	};
-	const commonjs_jsx = (out_dir?: string | undefined): ts.CompilerOptions => {
-		const _out = out_dir ? out_dir : "dist";
-		if (tsconfig_opts !== undefined) {
-			const {
-				rootDir,
-				outDir,
-				module,
-				allowJs,
-				declarationDir,
-				lib,
-				jsx,
-				...rest
-			} = tsconfig_opts;
-			return {
-				outDir: _out,
-				module: ts.ModuleKind.CommonJS,
-				allowJs: true,
-				lib: ["dom", "dom.iterable", "esnext"],
-				jsx: ts.JsxEmit.ReactJSX,
-				...rest,
-			} as ts.CompilerOptions;
-		} else {
-			return {
-				outDir: _out,
-				module: ts.ModuleKind.CommonJS,
-				target: ts.ScriptTarget.Latest,
-				lib: ["dom", "dom.iterable", "esnext"],
-				jsx: ts.JsxEmit.ReactJSX,
 			} as ts.CompilerOptions;
 		}
 	};
@@ -123,39 +91,8 @@ function getCompilerOptions(customConfigPath?: string | undefined): {
 			} as ts.CompilerOptions;
 		}
 	};
-	const esm_jsx = (out_dir?: string | undefined): ts.CompilerOptions => {
-		const _out = out_dir ? out_dir : "dist";
-		if (tsconfig_opts !== undefined) {
-			const {
-				rootDir,
-				outDir,
-				module,
-				allowJs,
-				declarationDir,
-				jsx,
-				lib,
-				...rest
-			} = tsconfig_opts;
-			return {
-				outDir: _out,
-				module: ts.ModuleKind.ES2020,
-				allowJs: true,
-				lib: ["dom", "dom.iterable", "esnext"],
-				jsx: ts.JsxEmit.ReactJSX,
-				...rest,
-			} as ts.CompilerOptions;
-		} else {
-			return {
-				outDir: _out,
-				module: ts.ModuleKind.ES2020,
-				target: ts.ScriptTarget.Latest,
-				lib: ["dom", "dom.iterable", "esnext"],
-				jsx: ts.JsxEmit.ReactJSX,
-			} as ts.CompilerOptions;
-		}
-	};
 	const defaultOptions = ts.getDefaultCompilerOptions;
-	return { commonjs, esm, defaultOptions, commonjs_jsx, esm_jsx };
+	return { commonjs, esm, defaultOptions };
 }
 
 export { getCompilerOptions };

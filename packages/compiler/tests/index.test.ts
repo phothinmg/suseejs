@@ -49,4 +49,106 @@ describe("SuseeCompilers", () => {
 		assert.match(result.map as string, /"version":\s*3/);
 		assert.strictEqual(result.file_name, "index");
 	});
+
+	it("supports JSX when react import exists", () => {
+		const result = suseeCompiler({
+			sourceCode:
+				'import React from "react";\nexport const App = () => <section>Hello</section>;',
+			fileName: "app.tsx",
+			compilerOptions: { module: ts.ModuleKind.ES2020 },
+			isJsx: true,
+		});
+
+		assert.match(result.code, /react\/jsx-runtime/);
+		assert.match(result.code, /_jsx\("section"/);
+	});
+
+	it("supports JSX with jsxImportSource when runtime import matches", () => {
+		const result = suseeCompiler({
+			sourceCode:
+				'import { h } from "preact";\nexport const App = () => <section>Hello</section>;',
+			fileName: "app.tsx",
+			compilerOptions: {
+				module: ts.ModuleKind.ES2020,
+				jsxImportSource: "preact",
+			},
+			isJsx: true,
+		});
+
+		assert.match(result.code, /preact\/jsx-runtime/);
+		assert.match(result.code, /_jsx\("section"/);
+	});
+
+	it("exits when JSX is enabled without react import and jsxImportSource", () => {
+		const sourceCode =
+			'import { h } from "preact";\nexport const App = () => <div />;';
+		let exitCode: number | undefined;
+		let loggedError = "";
+		const originalExit = process.exit;
+		const originalError = console.error;
+
+		try {
+			process.exit = ((code?: number): never => {
+				exitCode = code;
+				throw new Error("process.exit called");
+			}) as typeof process.exit;
+			console.error = ((message?: unknown) => {
+				loggedError = String(message);
+			}) as typeof console.error;
+
+			assert.throws(
+				() =>
+					suseeCompiler({
+						sourceCode,
+						fileName: "app.tsx",
+						compilerOptions: { module: ts.ModuleKind.ES2020 },
+						isJsx: true,
+					}),
+				/process\.exit called/,
+			);
+			assert.strictEqual(exitCode, 1);
+			assert.match(loggedError, /\[jsx-runtime-error\]/);
+		} finally {
+			process.exit = originalExit;
+			console.error = originalError;
+		}
+	});
+
+	it("exits when jsxImportSource does not match runtime import", () => {
+		const sourceCode =
+			'import { h } from "preact";\nexport const App = () => <div />;';
+		let exitCode: number | undefined;
+		let loggedError = "";
+		const originalExit = process.exit;
+		const originalError = console.error;
+
+		try {
+			process.exit = ((code?: number): never => {
+				exitCode = code;
+				throw new Error("process.exit called");
+			}) as typeof process.exit;
+			console.error = ((message?: unknown) => {
+				loggedError = String(message);
+			}) as typeof console.error;
+
+			assert.throws(
+				() =>
+					suseeCompiler({
+						sourceCode,
+						fileName: "app.tsx",
+						compilerOptions: {
+							module: ts.ModuleKind.ES2020,
+							jsxImportSource: "solid-js",
+						},
+						isJsx: true,
+					}),
+				/process\.exit called/,
+			);
+			assert.strictEqual(exitCode, 1);
+			assert.match(loggedError, /\[jsx-runtime-mismatch-error\]/);
+		} finally {
+			process.exit = originalExit;
+			console.error = originalError;
+		}
+	});
 });
