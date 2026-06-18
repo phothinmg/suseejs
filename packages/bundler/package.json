@@ -48,9 +48,9 @@
 		"provenance": true
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^2.4.12",
+		"@biomejs/biome": "^2.5.0",
 		"@suseejs/compiler": "file:../compiler",
-		"@types/node": "^25.6.0",
+		"@types/node": "^25.9.3",
 		"tsx": "^4.22.4"
 	},
 	"dependencies": {
