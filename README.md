@@ -9,4 +9,4 @@
 
 ## About
 
-The monorepo for suseejs's ecosystem and plugins packages.
+The monorepo for suseejs's ecosystem and plugins packages. Hello
