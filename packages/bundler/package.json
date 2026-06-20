@@ -34,7 +34,7 @@
 	"license": "Apache-2.0",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/phothinmg/suseejs.git",
+		"url": "git+https://github.com/suseejs/suseejs.git",
 		"directory": "packages/bundler"
 	},
 	"files": [
