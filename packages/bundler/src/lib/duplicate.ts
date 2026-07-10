@@ -30,6 +30,162 @@ const createDuplicateNameGenerator = () =>
 
 let duplicateName = createDuplicateNameGenerator();
 
+const isFunctionLikeScope = (node: ts.Node) =>
+	ts.isFunctionDeclaration(node) ||
+	ts.isFunctionExpression(node) ||
+	ts.isArrowFunction(node) ||
+	ts.isMethodDeclaration(node) ||
+	ts.isConstructorDeclaration(node) ||
+	ts.isGetAccessorDeclaration(node) ||
+	ts.isSetAccessorDeclaration(node);
+
+const isScopeBoundary = (node: ts.Node) =>
+	ts.isSourceFile(node) ||
+	ts.isBlock(node) ||
+	ts.isModuleBlock(node) ||
+	isFunctionLikeScope(node);
+
+const collectBindingNames = (name: ts.BindingName, names: Set<string>) => {
+	if (ts.isIdentifier(name)) {
+		names.add(name.text);
+		return;
+	}
+
+	for (const element of name.elements) {
+		if (ts.isOmittedExpression(element)) {
+			continue;
+		}
+
+		collectBindingNames(element.name, names);
+	}
+};
+
+const collectDirectScopeDeclarations = (node: ts.Node, names: Set<string>) => {
+	const visit = (child: ts.Node) => {
+		if (ts.isVariableStatement(child)) {
+			for (const declaration of child.declarationList.declarations) {
+				collectBindingNames(declaration.name, names);
+			}
+			return;
+		}
+
+		if (
+			ts.isFunctionDeclaration(child) ||
+			ts.isClassDeclaration(child) ||
+			ts.isEnumDeclaration(child) ||
+			ts.isInterfaceDeclaration(child) ||
+			ts.isTypeAliasDeclaration(child) ||
+			ts.isModuleDeclaration(child)
+		) {
+			if (child.name) {
+				names.add(child.name.text);
+			}
+			return;
+		}
+
+		if (isScopeBoundary(child)) {
+			return;
+		}
+
+		ts.forEachChild(child, visit);
+	};
+
+	ts.forEachChild(node, visit);
+};
+
+const collectFunctionScopedDeclarations = (
+	node: ts.Node,
+	names: Set<string>,
+) => {
+	if (
+		!(
+			ts.isFunctionDeclaration(node) ||
+			ts.isFunctionExpression(node) ||
+			ts.isArrowFunction(node) ||
+			ts.isMethodDeclaration(node) ||
+			ts.isConstructorDeclaration(node) ||
+			ts.isGetAccessorDeclaration(node) ||
+			ts.isSetAccessorDeclaration(node)
+		)
+	) {
+		return;
+	}
+
+	if (
+		node.name &&
+		ts.isIdentifier(node.name) &&
+		(ts.isFunctionDeclaration(node) || ts.isFunctionExpression(node))
+	) {
+		names.add(node.name.text);
+	}
+
+	for (const parameter of node.parameters) {
+		collectBindingNames(parameter.name, names);
+	}
+
+	const body = node.body;
+	if (!body) {
+		return;
+	}
+
+	const visitVarScoped = (child: ts.Node) => {
+		if (
+			child !== body &&
+			(ts.isFunctionDeclaration(child) ||
+				ts.isFunctionExpression(child) ||
+				ts.isArrowFunction(child) ||
+				ts.isMethodDeclaration(child) ||
+				ts.isConstructorDeclaration(child) ||
+				ts.isGetAccessorDeclaration(child) ||
+				ts.isSetAccessorDeclaration(child) ||
+				ts.isModuleBlock(child))
+		) {
+			return;
+		}
+
+		if (ts.isVariableDeclaration(child)) {
+			const declarationList = child.parent;
+			const variableStatement = declarationList.parent;
+			if (
+				ts.isVariableDeclarationList(declarationList) &&
+				ts.isVariableStatement(variableStatement) &&
+				(declarationList.flags & ts.NodeFlags.BlockScoped) === 0
+			) {
+				collectBindingNames(child.name, names);
+			}
+		}
+
+		ts.forEachChild(child, visitVarScoped);
+	};
+
+	visitVarScoped(body);
+};
+
+const createShadowedNames = (
+	node: ts.Node,
+	parentShadowedNames: Set<string>,
+) => {
+	if (ts.isSourceFile(node)) {
+		return parentShadowedNames;
+	}
+
+	if (isFunctionLikeScope(node)) {
+		const scopeNames = new Set(parentShadowedNames);
+		collectFunctionScopedDeclarations(node, scopeNames);
+		return scopeNames;
+	}
+
+	if (ts.isBlock(node) || ts.isModuleBlock(node)) {
+		const scopeNames = new Set(parentShadowedNames);
+		collectDirectScopeDeclarations(node, scopeNames);
+		return scopeNames;
+	}
+
+	return parentShadowedNames;
+};
+
+const isTopLevelNode = (node: ts.Node) => ts.isSourceFile(node.parent);
+
 const duplicateCallExpression = (
 	compilerOptions: ts.CompilerOptions,
 ): BundledHandler => {
@@ -98,9 +254,19 @@ const duplicateCallExpression = (
 				return false;
 			};
 
-			const visitor = (node: ts.Node): ts.Node => {
+			const visitor = (node: ts.Node, shadowedNames: Set<string>): ts.Node => {
+				const nextShadowedNames = createShadowedNames(node, shadowedNames);
+
 				if (ts.isCallExpression(node)) {
 					if (ts.isIdentifier(node.expression)) {
+						if (nextShadowedNames.has(node.expression.text)) {
+							return ts.visitEachChild(
+								node,
+								(child) => visitor(child, nextShadowedNames),
+								context,
+							);
+						}
+
 						const new_name = getMappedName(node.expression.text);
 						if (new_name) {
 							return factory.updateCallExpression(
@@ -113,6 +279,14 @@ const duplicateCallExpression = (
 					}
 				} else if (ts.isPropertyAccessExpression(node)) {
 					if (ts.isIdentifier(node.expression)) {
+						if (nextShadowedNames.has(node.expression.text)) {
+							return ts.visitEachChild(
+								node,
+								(child) => visitor(child, nextShadowedNames),
+								context,
+							);
+						}
+
 						const new_name = getMappedName(node.expression.text);
 						if (new_name) {
 							return factory.updatePropertyAccessExpression(
@@ -124,6 +298,14 @@ const duplicateCallExpression = (
 					}
 				} else if (ts.isNewExpression(node)) {
 					if (ts.isIdentifier(node.expression)) {
+						if (nextShadowedNames.has(node.expression.text)) {
+							return ts.visitEachChild(
+								node,
+								(child) => visitor(child, nextShadowedNames),
+								context,
+							);
+						}
+
 						const new_name = getMappedName(node.expression.text);
 						if (new_name) {
 							return factory.updateNewExpression(
@@ -135,6 +317,10 @@ const duplicateCallExpression = (
 						}
 					}
 				} else if (ts.isIdentifier(node) && !isDeclarationName(node)) {
+					if (nextShadowedNames.has(node.text)) {
+						return node;
+					}
+
 					if (
 						ts.isPropertyAccessExpression(node.parent) &&
 						node.parent.name === node
@@ -165,10 +351,17 @@ const duplicateCallExpression = (
 					}
 				}
 				/* ----------------------Returns for visitor function------------------------------- */
-				return ts.visitEachChild(node, visitor, context);
+				return ts.visitEachChild(
+					node,
+					(child) => visitor(child, nextShadowedNames),
+					context,
+				);
 			}; // visitor;
 			/* --------------------Returns for transformer function--------------------------------- */
-			return (rootNode) => ts.visitNode(rootNode, visitor) as ts.SourceFile;
+			return (rootNode) =>
+				ts.visitNode(rootNode, (node) =>
+					visitor(node, new Set()),
+				) as ts.SourceFile;
 		}; // transformer;
 		/* --------------------Returns for main handler function--------------------------------- */
 		const _content = utils.gen.transformFunction(
@@ -496,6 +689,10 @@ const duplicateUpdater = (
 			const { factory } = context;
 			const visitor = (node: ts.Node): ts.Node => {
 				if (ts.isVariableStatement(node)) {
+					if (!isTopLevelNode(node)) {
+						return ts.visitEachChild(node, visitor, context);
+					}
+
 					const newDeclarations = node.declarationList.declarations.map(
 						(decl) => {
 							if (ts.isIdentifier(decl.name)) {
@@ -533,6 +730,10 @@ const duplicateUpdater = (
 						newDeclList,
 					);
 				} else if (ts.isFunctionDeclaration(node)) {
+					if (!isTopLevelNode(node)) {
+						return ts.visitEachChild(node, visitor, context);
+					}
+
 					if (node.name && ts.isIdentifier(node.name)) {
 						const base = node.name.text;
 
@@ -556,6 +757,10 @@ const duplicateUpdater = (
 						}
 					}
 				} else if (ts.isClassDeclaration(node)) {
+					if (!isTopLevelNode(node)) {
+						return ts.visitEachChild(node, visitor, context);
+					}
+
 					if (node.name && ts.isIdentifier(node.name)) {
 						const base = node.name.text;
 

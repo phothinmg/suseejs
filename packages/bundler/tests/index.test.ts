@@ -19,6 +19,8 @@ function createBaseDeps(
 			bytes: 30,
 			moduleType: "json",
 			fileExt: ".json",
+			is_jsx: false,
+			is_entry: false,
 		},
 		{
 			file: consumerFile,
@@ -26,6 +28,8 @@ function createBaseDeps(
 			bytes: content.length,
 			moduleType: "esm",
 			fileExt: ".ts",
+			is_jsx: false,
+			is_entry: false,
 		},
 	];
 }
@@ -117,6 +121,8 @@ describe("jsonModuleHandlers", () => {
 				bytes: 24,
 				moduleType: "esm",
 				fileExt: ".ts",
+				is_jsx: false,
+				is_entry: false,
 			},
 		];
 
@@ -135,6 +141,8 @@ describe("anonymousHandler", () => {
 				bytes: 24,
 				moduleType: "esm",
 				fileExt: ".ts",
+				is_jsx: false,
+				is_entry: false,
 			},
 		];
 
@@ -156,6 +164,8 @@ describe("exportDefaultHandler", () => {
 				bytes: 57,
 				moduleType: "esm",
 				fileExt: ".ts",
+				is_jsx: false,
+				is_entry: false,
 			},
 		];
 
@@ -177,6 +187,8 @@ describe("duplicateHandlers", () => {
 				bytes: 33,
 				moduleType: "esm",
 				fileExt: ".ts",
+				is_jsx: false,
+				is_entry: false,
 			},
 			{
 				file: "/tmp/project/src/b.ts",
@@ -184,6 +196,8 @@ describe("duplicateHandlers", () => {
 				bytes: 37,
 				moduleType: "esm",
 				fileExt: ".ts",
+				is_jsx: false,
+				is_entry: false,
 			},
 		];
 
@@ -194,5 +208,79 @@ describe("duplicateHandlers", () => {
 		assert.match(a, /const __duplicatesNames__value_\d+ = 1/);
 		assert.match(b, /const __duplicatesNames__value_\d+ = 2/);
 		assert.match(b, /console\.log\(__duplicatesNames__value_\d+\)/);
+	});
+
+	it("keeps nested shadowed names unchanged when top-level duplicates are renamed", async () => {
+		const deps: DepsFile[] = [
+			{
+				file: "/tmp/project/src/a.ts",
+				content: "export const value = 1;\n",
+				bytes: 24,
+				moduleType: "esm",
+				fileExt: ".ts",
+				is_jsx: false,
+				is_entry: false,
+			},
+			{
+				file: "/tmp/project/src/b.ts",
+				content:
+					"const value = 2;\nfunction wrapper() {\n\tconst value = 3;\n\tfunction valueLocal() { return value; }\n\treturn valueLocal();\n}\nconsole.log(value, wrapper());\n",
+				bytes: 156,
+				moduleType: "esm",
+				fileExt: ".ts",
+				is_jsx: false,
+				is_entry: false,
+			},
+		];
+
+		const resolved = await duplicateHandlers.renamed(deps, {});
+		const b = resolved[1]?.content as string;
+
+		assert.match(b, /const __duplicatesNames__value_\d+ = 2/);
+		assert.match(
+			b,
+			/console\.log\(__duplicatesNames__value_\d+, wrapper\(\)\)/,
+		);
+		assert.match(b, /const value = 3/);
+		assert.match(b, /return value;/);
+		assert.doesNotMatch(b, /const __duplicatesNames__value_\d+ = 3/);
+	});
+
+	it("keeps nested duplicate declarations unchanged outside the top level", async () => {
+		const deps: DepsFile[] = [
+			{
+				file: "/tmp/project/src/a.ts",
+				content: "export function value() { return 1; }\n",
+				bytes: 37,
+				moduleType: "esm",
+				fileExt: ".ts",
+				is_jsx: false,
+				is_entry: false,
+			},
+			{
+				file: "/tmp/project/src/b.ts",
+				content:
+					"function value() { return 2; }\nfunction wrapper() {\n\tfunction value() { return 3; }\n\treturn value();\n}\nconsole.log(value(), wrapper());\n",
+				bytes: 141,
+				moduleType: "esm",
+				fileExt: ".ts",
+				is_jsx: false,
+				is_entry: false,
+			},
+		];
+
+		const resolved = await duplicateHandlers.renamed(deps, {});
+		const b = resolved[1]?.content as string;
+
+		assert.match(
+			b,
+			/function __duplicatesNames__value_\d+\(\) \{\s*return 2;\s*\}/,
+		);
+		assert.match(
+			b,
+			/console\.log\(__duplicatesNames__value_\d+\(\), wrapper\(\)\)/,
+		);
+		assert.match(b, /function value\(\) \{\s*return 3;\s*\}/);
+		assert.match(b, /return value\(\);/);
 	});
 });
