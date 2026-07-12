@@ -6,6 +6,8 @@
   "scripts": {
     "hooks:install": "bash scripts/install-hooks.sh",
     "build": "npm run build --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "fmt": "npm run fmt --workspaces --if-present",
     "publish:ws": "npm publish --workspaces --if-present",
     "release:ws": "node release/index.mjs",
     "v:patch": "npm version patch --no-git-tag-version && npm version patch --workspaces",
@@ -34,7 +36,8 @@
     "packages/bundler",
     "packages/commonjs-plugin",
     "packages/terser-plugin",
-    "packages/banner-text-plugin"
+    "packages/banner-text-plugin",
+    "packages/npm-dependencies"
   ],
   "repository": {
     "type": "git",
@@ -42,13 +45,7 @@
   },
   "devDependencies": {
     "@suseejs/color": "^0.0.1",
-    "@types/jsdom": "^28.0.3",
     "@types/node": "^25.6.0",
-    "@types/react": "^19.2.17",
-    "@types/react-dom": "^19.2.3",
-    "jsdom": "^29.1.1",
-    "react": "^19.2.7",
-    "react-dom": "^19.2.7",
     "tsx": "^4.22.4",
     "typescript": "^6.0.3"
   },
