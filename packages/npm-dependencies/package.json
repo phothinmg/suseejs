@@ -1,0 +1,33 @@
+{
+  "name": "@suseejs/npm-dependencies",
+  "version": "0.0.7",
+  "description": "",
+  "author": {
+    "name": "Pho Thin Mg",
+    "email": "phothinmg@disroot.org",
+    "url": "https://phothinmg.github.io/"
+  },
+  "keywords": [
+    "suseejs"
+  ],
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/suseejs/suseejs.git",
+    "directory": "packages/npm-dependencies"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md",
+    "package.json"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.3",
+    "typescript": "^6.0.3"
+  }
+}
