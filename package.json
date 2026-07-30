@@ -36,8 +36,7 @@
     "packages/bundler",
     "packages/commonjs-plugin",
     "packages/terser-plugin",
-    "packages/banner-text-plugin",
-    "packages/npm-dependencies"
+    "packages/banner-text-plugin"
   ],
   "repository": {
     "type": "git",
