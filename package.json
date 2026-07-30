@@ -1,6 +1,6 @@
 {
   "name": "suseejs",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Susee Js Monorepo",
   "type": "module",
   "scripts": {
@@ -26,15 +26,8 @@
     "url": "https://phothinmg.github.io/"
   },
   "workspaces": [
-    "packages/compiler",
     "packages/color",
-    "packages/tsoptions",
-    "packages/files",
     "packages/type",
-    "packages/utilities",
-    "packages/graph",
-    "packages/bundler",
-    "packages/commonjs-plugin",
     "packages/terser-plugin",
     "packages/banner-text-plugin"
   ],
